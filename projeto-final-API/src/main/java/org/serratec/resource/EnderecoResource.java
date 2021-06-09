@@ -1,7 +1,9 @@
 package org.serratec.resource;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.serratec.dto.EnderecoCompletoDTO;
 import org.serratec.models.Endereco;
 import org.serratec.repository.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,22 @@ public class EnderecoResource {
 	@Autowired
 	EnderecoRepository repository;
 	
+//	@GetMapping("/endereco/todos")
+//	public ResponseEntity<?> getTodos() {
+//		
+//		List<Endereco> todos = repository.findAll();
+//		return new ResponseEntity<>(todos, HttpStatus.OK);
+//	}
+	
 	@GetMapping("/endereco/todos")
 	public ResponseEntity<?> getTodos() {
-		
 		List<Endereco> todos = repository.findAll();
-		return new ResponseEntity<>(todos, HttpStatus.OK);
+		List<EnderecoCompletoDTO> dtos = new ArrayList<>();
+		
+		for (Endereco endereco : todos) 
+			dtos.add(new EnderecoCompletoDTO(endereco));
+		
+		return new ResponseEntity<>(dtos, HttpStatus.OK);
 	}
 	
 	@PostMapping("/endereco")
