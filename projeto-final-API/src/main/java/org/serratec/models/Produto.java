@@ -1,5 +1,7 @@
 package org.serratec.models;
 
+
+
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
@@ -18,7 +20,13 @@ public class Produto {
 		private Double preco;
 		private Integer quantidadeEstoque;
 		private LocalDateTime dataCadastro;
-		//private 
+		private String imagem; 
+		public String getImagem() {
+			return imagem;
+		}
+		public void setImagem(String imagem) {
+			this.imagem = imagem;
+		}
 		@OneToOne
 		private Categoria categoria;
 		public Long getId() {
