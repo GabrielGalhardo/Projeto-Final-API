@@ -11,14 +11,15 @@ public class Endereco {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private Long id;
 		private String cep;
-		private String numero;
+		private String numeroResidencia;
 		private String complemento;
 		
-		public String getNumero() {
-			return numero;
+
+		public String getNumeroResidencia() {
+			return numeroResidencia;
 		}
-		public void setNumero(String numero) {
-			this.numero = numero;
+		public void setNumeroResidencia(String numeroResidencia) {
+			this.numeroResidencia = numeroResidencia;
 		}
 		public Long getId() {
 			return id;
