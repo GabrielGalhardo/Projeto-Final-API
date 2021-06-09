@@ -3,10 +3,7 @@ package org.serratec.resource;
 import java.util.List;
 
 import org.serratec.dto.client.ClientCadastroDTO;
-import org.serratec.exception.ClientCpfException;
-import org.serratec.exception.ClientEmailException;
-import org.serratec.exception.ClientTelefoneException;
-import org.serratec.exception.ClientUsernameException;
+import org.serratec.exception.ClientException;
 import org.serratec.models.Client;
 import org.serratec.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,28 +28,24 @@ public class ClientResource {
         
 		try {
         	if(clientRepository.existsByCpf(cliente.getCpf()))
-        		throw new ClientCpfException("CPF já cadastrado");
+        		throw new ClientException("CPF já cadastrado");
         	
         	if(clientRepository.existsByUsername(cliente.getUsername()))
-        		throw new ClientUsernameException("Username já cadastrado");
+        		throw new ClientException("Username já cadastrado");
         	
         	if(clientRepository.existsByTelefone(cliente.getTelefone()))
-        		throw new ClientTelefoneException("Telefone já cadastrado");
+        		throw new ClientException("Telefone já cadastrado");
         	
         	if (clientRepository.existsByEmail(cliente.getEmail()))
-        		throw new ClientEmailException("Já existe um usuario com este e-mail"); 
+        		throw new ClientException("Já existe um usuario com este e-mail"); 
         	
         	clientRepository.save(cliente);
             return new ResponseEntity<>("Cliente cadastrado com sucesso", HttpStatus.OK);
         
-		}catch (ClientEmailException e) {
+		}catch (ClientException e) {
 
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
            
-        }catch(ClientCpfException e) {
-        	
-            	return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        	      	 
         }
     }
 

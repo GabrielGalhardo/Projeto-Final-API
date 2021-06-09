@@ -10,6 +10,7 @@ public class ClientCadastroDTO {
 	
 	private String nome;
 	private String email;
+	private String username;
 	private String senha;
 	private String cpf;
 	private String telefone;
@@ -20,6 +21,7 @@ public class ClientCadastroDTO {
 		
 		Client cliente = new Client();
 		cliente.setNome(this.nome);
+		cliente.setUsername(this.username);
 		cliente.setEmail(this.email);
 		cliente.setSenha(this.senha);
 		cliente.setCpf(this.cpf);
@@ -71,5 +73,12 @@ public class ClientCadastroDTO {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
 	
 }
