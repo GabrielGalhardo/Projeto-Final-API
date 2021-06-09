@@ -1,4 +1,4 @@
-package org.serratec.dto;
+package org.serratec.dto.endereco;
 
 import org.serratec.models.Endereco;
 import org.springframework.web.client.RestTemplate;

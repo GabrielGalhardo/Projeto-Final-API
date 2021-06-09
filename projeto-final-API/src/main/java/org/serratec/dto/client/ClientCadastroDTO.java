@@ -1,4 +1,6 @@
-package org.serratec.dto;
+package org.serratec.dto.client;
+
+import java.time.LocalDate;
 
 import org.serratec.models.Client;
 import org.serratec.models.Endereco;
@@ -11,17 +13,18 @@ public class ClientCadastroDTO {
 	private String senha;
 	private String cpf;
 	private String telefone;
-	private String dataNascimento;
+	private LocalDate dataNascimento;
 	private Endereco endereco;
 	
 	public Client toClient(ClientRepository clientRepository) {
 		
 		Client cliente = new Client();
 		cliente.setNome(this.nome);
-		cliente.setEmail(email);
-		cliente.setSenha(senha);
-		cliente.setCpf(cpf);
-		cliente.setTelefone(telefone);
+		cliente.setEmail(this.email);
+		cliente.setSenha(this.senha);
+		cliente.setCpf(this.cpf);
+		cliente.setDataNascimento(this.dataNascimento);
+		cliente.setTelefone(this.telefone);
 
 				
 		return cliente;
@@ -56,10 +59,10 @@ public class ClientCadastroDTO {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	public String getDataNascimento() {
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
-	public void setDataNascimento(String dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 	public Endereco getEndereco() {

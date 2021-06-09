@@ -2,9 +2,11 @@ package org.serratec.resource;
 
 import java.util.List;
 
-import org.serratec.dto.ClientCadastroDTO;
+import org.serratec.dto.client.ClientCadastroDTO;
 import org.serratec.exception.ClientCpfException;
 import org.serratec.exception.ClientEmailException;
+import org.serratec.exception.ClientTelefoneException;
+import org.serratec.exception.ClientUsernameException;
 import org.serratec.models.Client;
 import org.serratec.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,13 @@ public class ClientResource {
         
 		try {
         	if(clientRepository.existsByCpf(cliente.getCpf()))
-        		throw new ClientCpfException("CPF ja cadastrado");
+        		throw new ClientCpfException("CPF já cadastrado");
+        	
+        	if(clientRepository.existsByUsername(cliente.getUsername()))
+        		throw new ClientUsernameException("Username já cadastrado");
+        	
+        	if(clientRepository.existsByTelefone(cliente.getTelefone()))
+        		throw new ClientTelefoneException("Telefone já cadastrado");
         	
         	if (clientRepository.existsByEmail(cliente.getEmail()))
         		throw new ClientEmailException("Já existe um usuario com este e-mail"); 

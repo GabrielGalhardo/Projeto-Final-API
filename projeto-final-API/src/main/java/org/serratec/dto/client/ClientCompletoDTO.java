@@ -1,4 +1,4 @@
-package org.serratec.dto;
+package org.serratec.dto.client;
 
 public class ClientCompletoDTO {
 
