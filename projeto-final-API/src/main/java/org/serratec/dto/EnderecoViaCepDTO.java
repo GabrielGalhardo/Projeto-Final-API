@@ -4,7 +4,7 @@ public class EnderecoViaCepDTO {
 
     private String logradouro;
     private String bairro;
-    private String cidade;
+    private String localidade;
     private String uf;
 
     public String getLogradouro() {
@@ -19,13 +19,14 @@ public class EnderecoViaCepDTO {
     public void setBairro(String bairro) {
         this.bairro = bairro;
     }
-    public String getCidade() {
-        return cidade;
-    }
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-    public String getUf() {
+    
+    public String getLocalidade() {
+		return localidade;
+	}
+	public void setLocalidade(String localidade) {
+		this.localidade = localidade;
+	}
+	public String getUf() {
         return uf;
     }
     public void setUf(String uf) {

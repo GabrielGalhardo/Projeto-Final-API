@@ -14,8 +14,8 @@ public class EnderecoCompletoDTO {
         RestTemplate rest = new RestTemplate();
         EnderecoViaCepDTO viaCep = rest.getForObject(uri, EnderecoViaCepDTO.class);
 
-        this.completo = endereco.getCep() + ", " + endereco.getNumeroResidencia() + viaCep.getLogradouro() + ", " 
-                + viaCep.getBairro() + ", " + viaCep.getCidade() + ", " + viaCep.getUf() + ", " + endereco.getComplemento();
+        this.completo = endereco.getCep() + ", " + endereco.getNumeroResidencia() +", "+ viaCep.getLogradouro() + ", " 
+                + viaCep.getBairro() + ", " + viaCep.getLocalidade() + ", " + viaCep.getUf() + ", " + endereco.getComplemento();
     }
 
     public String getCompleto() {
