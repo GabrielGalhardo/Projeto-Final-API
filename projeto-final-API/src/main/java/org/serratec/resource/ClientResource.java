@@ -2,10 +2,11 @@ package org.serratec.resource;
 
 import java.util.List;
 
-import org.serratec.exception.ClientException;
+import org.serratec.dto.ClientCadastroDTO;
 import org.serratec.models.Client;
 import org.serratec.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,15 +22,17 @@ public class ClientResource {
 	
 	//Lembrar de acertar exception que não está funcionando
 	@PostMapping("/client")
-    public ResponseEntity<?> post(@Validated @RequestBody Client novo) {
-        try {
-
-            clientRepository.save(novo);
+    public ResponseEntity<?> post(@Validated @RequestBody ClientCadastroDTO dto) {
+		
+		Client cliente = dto.toClient();
+        
+		try {
+        	clientRepository.save(cliente);
 
             return new ResponseEntity<>("Cliente cadastrado com sucesso", HttpStatus.OK);
-        } catch (ClientException e) {
+        } catch (DataIntegrityViolationException e) {
 
-            if (clientRepository.existsByEmail(novo.getEmail()))
+            if (clientRepository.existsByEmail(cliente.getEmail()))
                 return new ResponseEntity<>("Já existe um usuario com este e-mail", HttpStatus.BAD_REQUEST);
 
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

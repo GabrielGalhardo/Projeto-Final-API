@@ -11,8 +11,8 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Client {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(unique = true)
