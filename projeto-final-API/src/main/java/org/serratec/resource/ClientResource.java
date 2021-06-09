@@ -1,8 +1,10 @@
 package org.serratec.resource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.serratec.dto.client.ClientCadastroDTO;
+import org.serratec.dto.client.ClientSimplificadoDTO;
 import org.serratec.exception.ClientException;
 import org.serratec.models.Client;
 import org.serratec.repository.ClientRepository;
@@ -20,7 +22,7 @@ public class ClientResource {
 	@Autowired
 	ClientRepository clientRepository;
 	
-	//Lembrar de acertar exception que não está funcionando
+	
 	@PostMapping("/client")
     public ResponseEntity<?> post(@Validated @RequestBody ClientCadastroDTO dto) {
 		
@@ -59,15 +61,16 @@ public class ClientResource {
 	 * 
 	 * return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); } }
 	 */
-
+	
 	@GetMapping("/client/todos")
 	public ResponseEntity<?> getTodos() {
 		List<Client> todos = clientRepository.findAll();
-		if (todos.isEmpty()) {
-			return new ResponseEntity<>("Nenhum cliente encontrado", HttpStatus.NOT_FOUND);
-		} else {
-			return new ResponseEntity<>(todos, HttpStatus.OK);
-		}
+		List<ClientSimplificadoDTO> dtos = new ArrayList<>();
+		
+		for (Client client : todos) 
+			dtos.add(new ClientSimplificadoDTO(client));
+		
+		return new ResponseEntity<>(dtos, HttpStatus.OK);
 	}
 	/*
 	 * @GetMapping("client/{cpf}") public ResponseEntity<?>

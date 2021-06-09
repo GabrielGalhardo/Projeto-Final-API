@@ -7,7 +7,7 @@ public class EnderecoViaCepDTO {
     private String localidade;
     private String uf;
 
-    public String getLogradouro() {
+	public String getLogradouro() {
         return logradouro;
     }
     public void setLogradouro(String logradouro) {
