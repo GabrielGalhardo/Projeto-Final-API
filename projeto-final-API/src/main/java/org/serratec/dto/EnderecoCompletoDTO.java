@@ -9,7 +9,6 @@ public class EnderecoCompletoDTO {
     private String numeroResidencial;
     private String logradouro;
     private String bairro;
-    private String localidade;
     private String uf;
     private String cidade;
     private String complemento;
@@ -54,12 +53,6 @@ public class EnderecoCompletoDTO {
 	}
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
-	}
-	public String getLocalidade() {
-		return localidade;
-	}
-	public void setLocalidade(String localidade) {
-		this.localidade = localidade;
 	}
 	public String getUf() {
 		return uf;
