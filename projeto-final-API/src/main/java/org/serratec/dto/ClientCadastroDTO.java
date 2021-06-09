@@ -1,9 +1,8 @@
 package org.serratec.dto;
 
-
-
 import org.serratec.models.Client;
 import org.serratec.models.Endereco;
+import org.serratec.repository.ClientRepository;
 
 public class ClientCadastroDTO {
 	
@@ -15,7 +14,7 @@ public class ClientCadastroDTO {
 	private String dataNascimento;
 	private Endereco endereco;
 	
-	public Client toClient() {
+	public Client toClient(ClientRepository clientRepository) {
 		
 		Client cliente = new Client();
 		cliente.setNome(this.nome);

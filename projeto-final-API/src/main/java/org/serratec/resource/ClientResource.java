@@ -3,11 +3,11 @@ package org.serratec.resource;
 import java.util.List;
 
 import org.serratec.dto.ClientCadastroDTO;
-import org.serratec.exception.ClientException;
+import org.serratec.exception.ClientCpfException;
+import org.serratec.exception.ClientEmailException;
 import org.serratec.models.Client;
 import org.serratec.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,24 +25,26 @@ public class ClientResource {
 	@PostMapping("/client")
     public ResponseEntity<?> post(@Validated @RequestBody ClientCadastroDTO dto) {
 		
-		Client cliente = dto.toClient();
+		Client cliente = dto.toClient(clientRepository);
         
 		try {
+        	if(clientRepository.existsByCpf(cliente.getCpf()))
+        		throw new ClientCpfException("CPF ja cadastrado");
+        	
+        	if (clientRepository.existsByEmail(cliente.getEmail()))
+        		throw new ClientEmailException("Já existe um usuario com este e-mail"); 
+        	
         	clientRepository.save(cliente);
-
             return new ResponseEntity<>("Cliente cadastrado com sucesso", HttpStatus.OK);
-        } catch (DataIntegrityViolationException e) {
+        
+		}catch (ClientEmailException e) {
 
-            if (clientRepository.existsByEmail(cliente.getEmail()))
-                return new ResponseEntity<>("Já existe um usuario com este e-mail", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
            
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }catch (ClientException e) {
-           
-            if(clientRepository.existsByCpf(cliente.getCpf()))
-            	return new ResponseEntity<>("CPF ja cadastrado", HttpStatus.BAD_REQUEST);
-            
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }catch(ClientCpfException e) {
+        	
+            	return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        	      	 
         }
     }
 
