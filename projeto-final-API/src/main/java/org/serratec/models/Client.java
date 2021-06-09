@@ -21,6 +21,8 @@ public class Client {
 	private String username;
 	private String senha;
 	private String nome;
+	
+	@Column(unique = true)
 	private String cpf;
 	private String telefone;
 	private LocalDate dataNascimento;

@@ -3,6 +3,7 @@ package org.serratec.resource;
 import java.util.List;
 
 import org.serratec.dto.ClientCadastroDTO;
+import org.serratec.exception.ClientException;
 import org.serratec.models.Client;
 import org.serratec.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,13 @@ public class ClientResource {
 
             if (clientRepository.existsByEmail(cliente.getEmail()))
                 return new ResponseEntity<>("Já existe um usuario com este e-mail", HttpStatus.BAD_REQUEST);
-
+           
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }catch (ClientException e) {
+           
+            if(clientRepository.existsByCpf(cliente.getCpf()))
+            	return new ResponseEntity<>("CPF ja cadastrado", HttpStatus.BAD_REQUEST);
+            
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
