@@ -2,25 +2,30 @@ package org.serratec.models;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Client {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(unique = true)
 	private String email;
+	
 	private String username;
 	private String senha;
 	private String nome;
 	private String cpf;
 	private String telefone;
 	private LocalDate dataNascimento;
-	@ManyToOne
+
+	@OneToOne
 	private Endereco endereco;
 	//@OneToMany(mappedBy = "cliente")
 	//private List<Pedidos> pedidos;
