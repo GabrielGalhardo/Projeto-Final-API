@@ -124,26 +124,24 @@ public class ClientResource {
 	
 	
 	@PutMapping("/cliente/por-id/{id}")
-    public void putCliente(@PathVariable Long id, @RequestBody Client modificado) {
+    public void putCliente(@PathVariable Long id, @RequestBody Client cliente) {
 
         Optional<Client> opcional = clientRepository.findById(id);
 
         if(opcional.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto inexistente");
 
-        Client existente = opcional.get();
-        existente.setEmail(modificado.getEmail());
-		 existente.setUsername(modificado.getUsername());
-		 existente.setSenha(modificado.getSenha());
-		 existente.setNome(modificado.getNome());
-		 existente.setTelefone(modificado.getTelefone());
-		 existente.setDataNascimento(modificado.getDataNascimento());
-		 
-        
-        emailService.enviar("Cadastro Alterado!", "Você alterou seus dados com sucesso!", "contato@livraria.livros", modificado.getEmail());
-        emailService.enviar("ALERTA!", "Os dados da sua conta foram alterados! Caso não tenha sido você, entre em contato com com o suporte: 'grupocheiroso3@gmail.com' que resolveremos seu problema!", "contato@livraria.livros", existente.getEmail());
-        clientRepository.save(existente);
+        Client newCliente = opcional.get();
+        newCliente.setEmail(cliente.getEmail());
+        newCliente.setUsername(cliente.getUsername());
+        newCliente.setSenha(cliente.getSenha());
+        newCliente.setNome(cliente.getNome());
+        newCliente.setTelefone(cliente.getTelefone());
+        newCliente.setDataNascimento(cliente.getDataNascimento());
+       
+        emailService.enviar("Cadastro Alterado!", "Os dados da sua conta foram alterados! Caso não tenha sido você, entre em contato com com o suporte do Grupo Cheiroso: 'grupocheiroso3@gmail.com'  que resolveremos seu problema!", "contato@livraria.livros", newCliente.getEmail());
+       
+        clientRepository.save(newCliente);
 
     }
-	
 }

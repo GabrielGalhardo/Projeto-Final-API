@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import org.serratec.models.Client;
 import org.serratec.models.Endereco;
-import org.serratec.repository.ClientRepository;
 
 public class ClientCadastroDTO {
 	
