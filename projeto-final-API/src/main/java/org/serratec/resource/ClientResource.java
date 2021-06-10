@@ -8,6 +8,7 @@ import org.serratec.dto.client.ClientSimplificadoDTO;
 import org.serratec.exception.ClientException;
 import org.serratec.models.Client;
 import org.serratec.repository.ClientRepository;
+import org.serratec.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class ClientResource {
 	@Autowired
 	ClientRepository clientRepository;
+	
+	@Autowired
+	EmailService emailService;
 	
 	private static final int[] pesoCPF = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
 	
@@ -61,6 +65,7 @@ public class ClientResource {
         		throw new ClientException("Já existe um usuario com este e-mail"); 
         	
         	clientRepository.save(cliente);
+        	emailService.enviar("Bem vindo", "Voce e a alma do grupo 3", "contato@livraria.livros", cliente.getEmail());
             return new ResponseEntity<>("Cliente cadastrado com sucesso", HttpStatus.OK);
         
 		}catch (ClientException e) {
