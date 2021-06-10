@@ -2,6 +2,7 @@ package org.serratec.resource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.serratec.dto.client.ClientCadastroDTO;
 import org.serratec.dto.client.ClientSimplificadoDTO;
@@ -14,9 +15,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 public class ClientResource {
@@ -107,4 +111,39 @@ public class ClientResource {
 	 * return new ResponseEntity<>(new ClienteCompletoDTO(optional.get()),
 	 * HttpStatus.OK); }
 	 */
+	
+	
+		/*
+		 * existente.setUsername(modificada.getUsername());
+		 * existente.setSenha(modificada.getSenha());
+		 * existente.setNome(modificada.getNome());
+		 * existente.setTelefone(modificada.getTelefone());
+		 * existente.setDataNascimento(modificada.getDataNascimento());
+		 */
+		
+	
+	
+	@PutMapping("/cliente/por-id/{id}")
+    public void putCliente(@PathVariable Long id, @RequestBody Client modificado) {
+
+        Optional<Client> opcional = clientRepository.findById(id);
+
+        if(opcional.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto inexistente");
+
+        Client existente = opcional.get();
+        existente.setEmail(modificado.getEmail());
+		 existente.setUsername(modificado.getUsername());
+		 existente.setSenha(modificado.getSenha());
+		 existente.setNome(modificado.getNome());
+		 existente.setTelefone(modificado.getTelefone());
+		 existente.setDataNascimento(modificado.getDataNascimento());
+		 
+        
+        emailService.enviar("Cadastro Alterado!", "Você alterou seus dados com sucesso!", "contato@livraria.livros", modificado.getEmail());
+        emailService.enviar("ALERTA!", "Os dados da sua conta foram alterados! Caso não tenha sido você, entre em contato com com o suporte: 'grupocheiroso3@gmail.com' que resolveremos seu problema!", "contato@livraria.livros", existente.getEmail());
+        clientRepository.save(existente);
+
+    }
+	
 }
