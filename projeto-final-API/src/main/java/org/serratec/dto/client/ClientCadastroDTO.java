@@ -17,7 +17,7 @@ public class ClientCadastroDTO {
 	private LocalDate dataNascimento;
 	private Endereco endereco;
 	
-	public Client toClient(ClientRepository clientRepository) {
+	public Client toClient() {
 		
 		Client cliente = new Client();
 		cliente.setNome(this.nome);
@@ -28,9 +28,11 @@ public class ClientCadastroDTO {
 		cliente.setDataNascimento(this.dataNascimento);
 		cliente.setTelefone(this.telefone);
 
+		cliente.setEndereco(this.endereco);
 				
 		return cliente;
 	}
+	
 	public String getNome() {
 		return nome;
 	}

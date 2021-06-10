@@ -2,6 +2,7 @@ package org.serratec.models;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +28,7 @@ public class Client {
 	private String telefone;
 	private LocalDate dataNascimento;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	private Endereco endereco;
 	//@OneToMany(mappedBy = "cliente")
 	//private List<Pedidos> pedidos;

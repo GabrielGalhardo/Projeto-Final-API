@@ -53,7 +53,7 @@ public class ClientResource {
 	@PostMapping("/client")
     public ResponseEntity<?> post(@Validated @RequestBody ClientCadastroDTO dto) {
 		
-		Client cliente = dto.toClient(clientRepository);
+		Client cliente = dto.toClient();
         
 		try {
         	if(clientRepository.existsByCpf(cliente.getCpf()) || !isValidCpf(cliente.getCpf()))
