@@ -1,10 +1,13 @@
 package org.serratec.dto.produto;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.serratec.exception.ClientException;
 import org.serratec.models.Categoria;
 import org.serratec.models.Produto;
+import org.serratec.repository.CategoriaRepository;
 
 
 
@@ -15,12 +18,12 @@ public class ProdutoCadastroDTO {
 		private String descricao;
 		private Double preco;
 		private Integer quantidadeEstoque;
-		private String imagem; 
 		private Categoria categoria;
+		private String imagem; 
 		private String imgBase64;
 		private String pdfBase64;
 		
-		public Produto toProduto() {
+		public Produto toProduto(CategoriaRepository categoriaRepository) {
 			
 			Produto produto = new Produto();
 			produto.setNome(this.nome);
@@ -36,10 +39,18 @@ public class ProdutoCadastroDTO {
 				produto.setPdf(pdf);
 			}
 			
+			
+			Optional<Categoria> categoria = categoriaRepository.findByNome(this.categoria.getNome());
+			
+			if(categoria.isEmpty())
+				throw new ClientException("Categoria \"" + this.categoria + "\"não encontrada");
+			
+			produto.setCategoria(categoria.get());
+			
+			
 			return produto;
 		}
 
-		
 		
 		
 		public String getNome() {
@@ -77,6 +88,18 @@ public class ProdutoCadastroDTO {
 		}
 		public void setCategoria(Categoria categoria) {
 			this.categoria = categoria;
+		}
+		public String getImgBase64() {
+			return imgBase64;
+		}
+		public void setImgBase64(String imgBase64) {
+			this.imgBase64 = imgBase64;
+		}
+		public String getPdfBase64() {
+			return pdfBase64;
+		}
+		public void setPdfBase64(String pdfBase64) {
+			this.pdfBase64 = pdfBase64;
 		}
 		
 		

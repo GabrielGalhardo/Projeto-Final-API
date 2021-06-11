@@ -25,8 +25,6 @@ public class CategoriaResource {
 		
 		return new ResponseEntity<>("Categoria cadastrada com sucesso!", HttpStatus.OK);
 	}
-	
-
 
 	@GetMapping("/categoria/todos")
 	public ResponseEntity<?> getTodos(){

@@ -28,19 +28,13 @@ public class Produto {
 	private String descricao;
 	
 	@NotNull
-	@NotBlank
 	private Double preco;
 	
 	@NotNull
-	@NotBlank
 	private Integer quantidadeEstoque;
 	
-	@NotNull
-	@NotBlank
 	private LocalDateTime dataCadastro;
-	
-	@NotNull
-	@NotBlank
+
 	private String imagem;
 
 	private byte[] capa;

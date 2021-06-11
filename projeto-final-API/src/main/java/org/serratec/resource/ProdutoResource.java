@@ -3,7 +3,9 @@ package org.serratec.resource;
 import java.util.List;
 
 import org.serratec.dto.produto.ProdutoCadastroDTO;
+import org.serratec.exception.ClientException;
 import org.serratec.models.Produto;
+import org.serratec.repository.CategoriaRepository;
 import org.serratec.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,15 +22,21 @@ public class ProdutoResource {
 	@Autowired
 	ProdutoRepository produtoRepository;
 	
+	@Autowired
+	CategoriaRepository categoriaRepository;
+	
 	
 	@PostMapping("/produto")
 	public ResponseEntity<?> postProduto(@Validated @RequestBody ProdutoCadastroDTO dto) {
 		
-		Produto produto = dto.toProduto();
+		try {
+			Produto produto = dto.toProduto(categoriaRepository);
+			produtoRepository.save(produto);
+			return new ResponseEntity<>("Produto cadastrado com sucesso!", HttpStatus.OK);
+		} catch (ClientException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 		
-		produtoRepository.save(produto);
-		
-		return new ResponseEntity<>("Produto cadastrado com sucesso!", HttpStatus.OK);
 	}
 
 	
