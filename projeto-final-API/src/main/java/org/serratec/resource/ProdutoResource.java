@@ -1,8 +1,10 @@
 package org.serratec.resource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.serratec.dto.produto.ProdutoCadastroDTO;
+import org.serratec.dto.produto.ProdutoSimplificadoDTO;
 import org.serratec.exception.ClientException;
 import org.serratec.models.Produto;
 import org.serratec.repository.CategoriaRepository;
@@ -42,9 +44,13 @@ public class ProdutoResource {
 	
 	@GetMapping("/produto/todos")
 	public ResponseEntity<?> getTodos(){
-		List<Produto> produtos = produtoRepository.findAll();
-		if(produtos.isEmpty())
-			return new ResponseEntity<>("Nenhum produto cadastrado ainda", HttpStatus.NOT_FOUND);	
-		return new ResponseEntity<>(produtos, HttpStatus.OK);
+		List<Produto> todos = produtoRepository.findAll();
+		List<ProdutoSimplificadoDTO> dtos = new ArrayList<>();
+		
+		for (Produto produto : todos) 
+			dtos.add(new ProdutoSimplificadoDTO(produto));
+		
+		return new ResponseEntity<>(dtos, HttpStatus.OK);
 	}
+			
 }
