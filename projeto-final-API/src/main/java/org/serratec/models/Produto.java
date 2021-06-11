@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 
 import com.sun.istack.NotNull;
@@ -41,7 +41,7 @@ public class Produto {
 		
 	private byte[] pdf; 
 		
-	@OneToOne
+	@ManyToOne
 	private Categoria categoria;
 		
 	public String getImagem() {
