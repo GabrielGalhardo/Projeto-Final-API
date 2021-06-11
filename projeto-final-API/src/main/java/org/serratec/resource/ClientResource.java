@@ -104,20 +104,21 @@ public class ClientResource {
 	}
 	
 	  
-		@GetMapping("/client/completo/{cpf}")
-		public ResponseEntity<?> getDetalhe(@PathVariable String cpf) {
-			Optional<Client> optional = clientRepository.findByCpf(cpf);
-			
-			if (optional.isEmpty())
-				return new ResponseEntity<>("CPF não encontrado", HttpStatus.NOT_FOUND);
-			
-			return new ResponseEntity<>(new ClientCompletoDTO(optional.get()), HttpStatus.OK);
-		}	
+	@GetMapping("/client/completo/{cpf}")
+	public ResponseEntity<?> getDetalhe(@PathVariable String cpf) {
+		Optional<Client> optional = clientRepository.findByCpf(cpf);
+		
+		if (optional.isEmpty())
+			return new ResponseEntity<>("CPF não encontrado", HttpStatus.NOT_FOUND);
+		
+		return new ResponseEntity<>(new ClientCompletoDTO(optional.get()), HttpStatus.OK);
+	}	
+	
+		
+	@PutMapping("/cliente/troca/{cpf}")
+    public void putCliente(@PathVariable String cpf, @RequestBody Client cliente) {
 
-	@PutMapping("/cliente/por-id/{id}")
-    public void putCliente(@PathVariable Long id, @RequestBody Client cliente) {
-
-        Optional<Client> opcional = clientRepository.findById(id);
+        Optional<Client> opcional = clientRepository.findByCpf(cpf);
 
         if(opcional.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto inexistente");
