@@ -20,15 +20,21 @@ public class Produto {
 		private Double preco;
 		private Integer quantidadeEstoque;
 		private LocalDateTime dataCadastro;
-		private String imagem; 
+		private String imagem;
+
+		private byte[] capa;
+		
+		private byte[] pdf; 
+		
+		@OneToOne
+		private Categoria categoria;
+		
 		public String getImagem() {
 			return imagem;
 		}
 		public void setImagem(String imagem) {
 			this.imagem = imagem;
 		}
-		@OneToOne
-		private Categoria categoria;
 		public Long getId() {
 			return id;
 		}
@@ -70,6 +76,18 @@ public class Produto {
 		}
 		public void setCategoria(Categoria categoria) {
 			this.categoria = categoria;
+		}
+		public byte[] getCapa() {
+			return capa;
+		}
+		public void setCapa(byte[] capa) {
+			this.capa = capa;
+		}
+		public byte[] getPdf() {
+			return pdf;
+		}
+		public void setPdf(byte[] pdf) {
+			this.pdf = pdf;
 		}
 		
 		

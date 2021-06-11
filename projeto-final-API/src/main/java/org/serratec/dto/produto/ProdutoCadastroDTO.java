@@ -2,8 +2,11 @@ package org.serratec.dto.produto;
 
 import java.time.LocalDateTime;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.serratec.models.Categoria;
 import org.serratec.models.Produto;
+
+
 
 public class ProdutoCadastroDTO {
 
@@ -12,9 +15,10 @@ public class ProdutoCadastroDTO {
 		private String descricao;
 		private Double preco;
 		private Integer quantidadeEstoque;
-		private LocalDateTime dataCadastro;
 		private String imagem; 
 		private Categoria categoria;
+		private String imgBase64;
+		private String pdfBase64;
 		
 		public Produto toProduto() {
 			
@@ -23,11 +27,15 @@ public class ProdutoCadastroDTO {
 			produto.setDescricao(this.descricao);
 			produto.setPreco(this.preco);
 			produto.setQuantidadeEstoque(this.quantidadeEstoque);
-		//	LocalDateTime dataCadastro = LocalDateTime.now();
-		//	produto.setDataCadastro(this.dataCadastro);
+			produto.setDataCadastro(LocalDateTime.now());
 			produto.setImagem(this.imagem);
 		//	produto.setCategoria(this.categoria);
-					
+				
+			if(pdfBase64 != null) {
+				byte[] pdf = Base64.decodeBase64(pdfBase64);
+				produto.setPdf(pdf);
+			}
+			
 			return produto;
 		}
 
@@ -57,12 +65,6 @@ public class ProdutoCadastroDTO {
 		}
 		public void setQuantidadeEstoque(Integer quantidadeEstoque) {
 			this.quantidadeEstoque = quantidadeEstoque;
-		}
-		public LocalDateTime getDataCadastro() {
-			return dataCadastro;
-		}
-		public void setDataCadastro(LocalDateTime dataCadastro) {
-			this.dataCadastro = dataCadastro;
 		}
 		public String getImagem() {
 			return imagem;
