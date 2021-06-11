@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.serratec</groupId>
-	<artifactId>Livraria</artifactId>
+	<artifactId>projeto-final</artifactId>
 	<version>1.0.0</version>
-	<name>Livraria</name>
-	<description>Projeto do Serratec Livraria</description>
+	<name>projeto-final</name>
+	<description>Projeto de API do grupo 3 para o Serratec </description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

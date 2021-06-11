@@ -3,7 +3,6 @@ package org.serratec.resource;
 import java.util.List;
 
 import org.serratec.dto.produto.ProdutoCadastroDTO;
-import org.serratec.models.Client;
 import org.serratec.models.Produto;
 import org.serratec.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
