@@ -23,7 +23,7 @@ public class CategoriaResource {
 	public ResponseEntity<?> postCategoria(@Validated @RequestBody Categoria categoria) {
 		categoriaRepository.save(categoria);
 		
-		return new ResponseEntity<>("Produto cadastrado com sucesso!", HttpStatus.OK);
+		return new ResponseEntity<>("Categoria cadastrada com sucesso!", HttpStatus.OK);
 	}
 	
 

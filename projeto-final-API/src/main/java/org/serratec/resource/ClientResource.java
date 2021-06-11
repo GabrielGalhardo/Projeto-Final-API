@@ -71,7 +71,7 @@ public class ClientResource {
         		throw new ClientException("Já existe um usuario com este e-mail"); 
         	
         	clientRepository.save(cliente);
-        	emailService.enviar("Bem vindo", "Voce e a alma do grupo 3", "contato@livraria.livros", cliente.getEmail());
+        	emailService.enviar("Bem vindo", "Seu cadastro foi armazenado", "Serratec@e-commerceSerratec", cliente.getEmail());
             return new ResponseEntity<>("Cliente cadastrado com sucesso", HttpStatus.OK);
         
 		}catch (ClientException e) {
@@ -113,17 +113,7 @@ public class ClientResource {
 			
 			return new ResponseEntity<>(new ClientCompletoDTO(optional.get()), HttpStatus.OK);
 		}	
-	
-		/*
-		 * existente.setUsername(modificada.getUsername());
-		 * existente.setSenha(modificada.getSenha());
-		 * existente.setNome(modificada.getNome());
-		 * existente.setTelefone(modificada.getTelefone());
-		 * existente.setDataNascimento(modificada.getDataNascimento());
-		 */
-		
-	
-	
+
 	@PutMapping("/cliente/por-id/{id}")
     public void putCliente(@PathVariable Long id, @RequestBody Client cliente) {
 
@@ -140,20 +130,20 @@ public class ClientResource {
         newCliente.setTelefone(cliente.getTelefone());
         newCliente.setDataNascimento(cliente.getDataNascimento());
        
-        emailService.enviar("Cadastro Alterado!", "Os dados da sua conta foram alterados! Caso não tenha sido você, entre em contato com com o suporte do Grupo Cheiroso: 'grupocheiroso3@gmail.com'  que resolveremos seu problema!", "contato@livraria.livros", newCliente.getEmail());
+        emailService.enviar("Cadastro Alterado!", "Os dados da sua conta foram alterados! Caso não tenha sido você, entre em contato com com o suporte do Grupo Cheiroso: 'grupocheiroso3@gmail.com'  que resolveremos seu problema!", "Serratec@e-commerceSerratec", newCliente.getEmail());
        
         clientRepository.save(newCliente);
 
     }
 
-	@DeleteMapping("/client/por-id/{id}")
-    public void deleteClient(@PathVariable Long id) {
-        Optional<Client> opcional = clientRepository.findById(id);
+	@DeleteMapping("/client/remove/{cpf}")
+    public void deleteClient(@PathVariable String cpf) {
+        Optional<Client> opcional = clientRepository.findByCpf(cpf);
 
         if (opcional.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Id inexistente");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "CPF foi digitado errado ou é inexistente");
 
-        clientRepository.deleteById(id);
+        clientRepository.deleteByCpf(cpf);
     }
 
 }

@@ -9,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
+
+import com.sun.istack.NotNull;
 
 @Entity
 public class Client {
@@ -16,18 +19,35 @@ public class Client {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotNull
+	@NotBlank
 	@Column(unique = true)
 	private String email;
 	
+	@NotNull
+	@NotBlank
 	private String username;
+	
+	@NotNull
+	@NotBlank
 	private String senha;
+	
+	@NotNull
+	@NotBlank
 	private String nome;
 	
+	@NotNull
+	@NotBlank
 	@Column(unique = true)
 	private String cpf;
+	
+	@NotNull
+	@NotBlank
 	private String telefone;
 	private LocalDate dataNascimento;
 
+	@NotNull
+	@NotBlank
 	@OneToOne(cascade = CascadeType.PERSIST)
 	private Endereco endereco;
 	//@OneToMany(mappedBy = "cliente")

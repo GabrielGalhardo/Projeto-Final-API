@@ -18,4 +18,6 @@ public interface ClientRepository extends JpaRepository <Client, Long>{
 	boolean existsByTelefone(String telefone);
 
 	Optional<Client> findByCpf(String cpf);
+
+	void deleteByCpf(String cpf);
 }
