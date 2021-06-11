@@ -6,7 +6,6 @@ import org.serratec.models.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ClientRepository extends JpaRepository <Client, Long>{
-	Optional<Client> findByCpf(Long id);
 	
 	Optional<Client> findById(Long id);
 
@@ -17,4 +16,6 @@ public interface ClientRepository extends JpaRepository <Client, Long>{
 	boolean existsByUsername(String username);
 
 	boolean existsByTelefone(String telefone);
+
+	Optional<Client> findByCpf(String cpf);
 }

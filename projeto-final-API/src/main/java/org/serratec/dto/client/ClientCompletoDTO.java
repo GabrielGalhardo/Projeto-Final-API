@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import org.serratec.dto.endereco.EnderecoCompletoDTO;
 import org.serratec.models.Client;
 
-public class ClientCompletoDetalhadoDTO {
+public class ClientCompletoDTO {
 
 	private String email;
 	private String username;
@@ -17,7 +17,7 @@ public class ClientCompletoDetalhadoDTO {
 	
 	private EnderecoCompletoDTO endereco;
 	
-	public ClientCompletoDetalhadoDTO(Client client) {
+	public ClientCompletoDTO(Client client) {
 		this.email = client.getEmail();
 		this.nome = client.getNome();
 		this.username = client.getUsername();

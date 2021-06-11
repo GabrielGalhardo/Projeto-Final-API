@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.serratec.dto.client.ClientCadastroDTO;
+import org.serratec.dto.client.ClientCompletoDTO;
 import org.serratec.dto.client.ClientSimplificadoDTO;
 import org.serratec.exception.ClientException;
 import org.serratec.models.Client;
@@ -100,18 +101,17 @@ public class ClientResource {
 		
 		return new ResponseEntity<>(dtos, HttpStatus.OK);
 	}
-	/*
-	 * @GetMapping("client/{cpf}") public ResponseEntity<?>
-	 * getEspecifico(@PathVariable Long id) { Optional<Client> optional =
-	 * repository.findByCpf(id);
-	 * 
-	 * if (optional.isEmpty()) return new ResponseEntity<>("Não encontrado",
-	 * HttpStatus.NOT_FOUND);
-	 * 
-	 * return new ResponseEntity<>(new ClienteCompletoDTO(optional.get()),
-	 * HttpStatus.OK); }
-	 */
 	
+	  
+		@GetMapping("/client/completo/{cpf}")
+		public ResponseEntity<?> getDetalhe(@PathVariable String cpf) {
+			Optional<Client> optional = clientRepository.findByCpf(cpf);
+			
+			if (optional.isEmpty())
+				return new ResponseEntity<>("CPF não encontrado", HttpStatus.NOT_FOUND);
+			
+			return new ResponseEntity<>(new ClientCompletoDTO(optional.get()), HttpStatus.OK);
+		}	
 	
 		/*
 		 * existente.setUsername(modificada.getUsername());
