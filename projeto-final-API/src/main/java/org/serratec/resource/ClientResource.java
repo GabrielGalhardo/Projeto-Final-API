@@ -137,14 +137,14 @@ public class ClientResource {
 
     }
 
-	@DeleteMapping("/client/remove/{cpf}")
-    public void deleteClient(@PathVariable String cpf) {
-        Optional<Client> opcional = clientRepository.findByCpf(cpf);
-        //authenticationService.
-        if (opcional.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "CPF foi digitado errado ou é inexistente");
-
-        clientRepository.deleteByCpf(cpf);
-    }
+//	@DeleteMapping("/client/remove/{cpf}")
+//    public void deleteClient(@PathVariable String cpf) {
+//        Optional<Client> opcional = clientRepository.findByCpf(cpf);
+//        //authenticationService.
+//        if (opcional.isEmpty())
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "CPF foi digitado errado ou é inexistente");
+//
+//        clientRepository.deleteByCpf(cpf);
+//    }
 	
 }

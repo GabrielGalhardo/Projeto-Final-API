@@ -2,6 +2,7 @@ package org.serratec.models;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -70,6 +71,33 @@ public class Pedidos {
 	}
 	public void setCliente(Client cliente) {
 		this.cliente = cliente;
+	}
+	
+	public List<Produtos_Pedidos> getProdutos() {
+		return produtos;
+	}
+	public void setProdutos(List<Produtos_Pedidos> produtos) {
+		this.produtos = produtos;
+	}
+	public String gerarNumeroPedido() {
+		if (this.numeroPedido == null || this.numeroPedido.isBlank()) {
+
+			LocalDateTime agora = LocalDateTime.now();
+			Random randomico = new Random();
+			String codigo = "v";
+			codigo += agora.getYear();
+			codigo += agora.getMonth();
+			codigo += agora.getDayOfMonth();
+			codigo += agora.getHour();
+			codigo += agora.getMinute();
+			codigo += agora.getSecond();
+
+			for (int i = 0; i < 10; i++) {
+				codigo += randomico.nextInt(10);
+			}
+			this.numeroPedido = codigo;	
+		}
+		return this.numeroPedido;
 	}
 		
 }

@@ -1,0 +1,63 @@
+POST DE CLIENTE - http://localhost:8080/client
+
+{
+    "email":"gustavosaldxav@gmail.com@gmail.com",
+    "username":"guguiu",
+    "senha":"#A12345",
+    "nome": "Gabriel da Silva Castro Galhardo",
+    "cpf": "13337662706",
+    "telefone": "22996436821",
+    "dataNascimento":"2003-08-14",
+
+        "endereco":{
+    "cep":"28623340",
+    "numeroResidencia":"15",
+    "complemento":"casa do galhardo"
+}
+}
+
+POST DE CATEGORIA - http://localhost:8080/categoria
+
+{
+	"nome": "tenis",
+	"descricao": "perfeito para uma pessoa estilosa"
+}
+
+
+POST DE Produto - http://localhost:8080/produto
+
+{
+    "nome":"Air Force 1",
+    "descricao":"O melhor da Nike",
+    "preco": 20.00,
+    "quantidadeEstoque": 15,
+	
+		"categoria":{
+    "nome":"tenis"
+}
+}
+
+POST DE ENDERECO - http://localhost:8080/endereco
+
+{
+    "cep":"28623340",
+    "numeroResidencia":"15",
+    "complemento":"casa do galhardo"
+}
+
+
+PUT TROCA DE GMAIL - http://localhost:8080/cliente/troca/13337660762
+
+{
+    "email":"acabouotempo843@gmail.com",
+    "username":"Garoto Gabriel menino",
+    "senha":"#A12345",
+    "nome": "Gabriel da Silva Castro Galhardo",
+    "telefone": "2212332323",
+    "dataNascimento":"2003-08-14",
+    "endereco":{
+        "cep":"28623000",
+        "numeroResidencia":"15",
+        "complemento":"casa do galhardo"
+}
+}
