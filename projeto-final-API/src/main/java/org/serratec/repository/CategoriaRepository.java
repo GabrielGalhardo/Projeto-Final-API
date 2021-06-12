@@ -9,5 +9,7 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long>{
 
 	Optional<Categoria> findByNome(String categoria);
 
+	void deleteByNome(String nome);
+
 	
 }

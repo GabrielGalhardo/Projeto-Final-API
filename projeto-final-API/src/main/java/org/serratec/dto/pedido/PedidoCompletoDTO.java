@@ -20,6 +20,7 @@ public class PedidoCompletoDTO {
 	
 
 	public PedidoCompletoDTO(Pedidos pedido) throws VendaException {
+		
 		this.codigo = pedido.getNumeroPedido();
 		
 		List<Produtos_Pedidos> produtoPedido = pedido.getProdutos();
