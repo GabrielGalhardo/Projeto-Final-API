@@ -1,6 +1,8 @@
 package org.serratec.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,10 +13,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.sun.istack.NotNull;
 
 @Entity
-public class Client{
+public class Client implements UserDetails{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -66,9 +71,6 @@ public class Client{
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getUsername() {
-		return username;
-	}
 	public String getSenha() {
 		return senha;
 	}
@@ -104,6 +106,39 @@ public class Client{
 	}
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+	
+	
+	
+	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return new ArrayList<GrantedAuthority>();
+	}
+	@Override
+	public String getPassword() {
+		return this.senha;
+	}
+	@Override
+	public String getUsername() {
+		return this.email;
+	}
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+	@Override
+	public boolean isCredentialsNonExpired() {
+
+		return true;
+	}
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 	
 }
