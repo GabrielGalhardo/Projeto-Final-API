@@ -20,4 +20,6 @@ public interface ClientRepository extends JpaRepository <Client, Long>{
 	Optional<Client> findByCpf(String cpf);
 
 	void deleteByCpf(String cpf);
+
+	Optional<Client> findByEmail(String username);
 }
