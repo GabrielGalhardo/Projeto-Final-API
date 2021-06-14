@@ -56,5 +56,21 @@ public class ProdutoResource {
 		
 		return new ResponseEntity<>(dtos, HttpStatus.OK);
 	}
-			
+	
+//	@GetMapping("/produto/especifico/{nome}")
+//	public ResponseEntity<?> getEspecifico(@PathVariable String codigo, Classificacao classificacao) {
+//		
+//		Optional<Livro> optional = repository.findByCodigo(codigo);
+//		
+//		if(optional.isEmpty())
+//			return new ResponseEntity<>("Livro inexistente", HttpStatus.NOT_FOUND);
+//	
+//		return new ResponseEntity<>(new LivroDetalhamentoDTO(optional.get()), HttpStatus.OK);
+//	}
+		
+	@GetMapping("/produto/especifico/{nome}")
+	public Optional<Produto> getEspecifico(@PathVariable String nome) {
+		return produtoRepository.findByNome(nome);
+	}
+	
 }
