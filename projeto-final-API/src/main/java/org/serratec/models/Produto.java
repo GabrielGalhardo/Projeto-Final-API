@@ -24,7 +24,6 @@ public class Produto {
 	private String nome;
 	
 	@NotNull
-	@NotBlank
 	private String codigo;
 	
 	@NotNull
