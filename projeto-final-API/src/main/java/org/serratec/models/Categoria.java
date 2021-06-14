@@ -22,6 +22,8 @@ public class Categoria {
 	private String nome;
 	private String descricao;
 	
+	private Boolean ativado;
+	
 	@OneToMany
 	private List<Produto> produtos;
 	
@@ -50,5 +52,12 @@ public class Categoria {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+	public Boolean getAtivado() {
+		return ativado;
+	}
+	public void setAtivado(Boolean ativado) {
+		this.ativado = ativado;
+	}
+	
 	
 }

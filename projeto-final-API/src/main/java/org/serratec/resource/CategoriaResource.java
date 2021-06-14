@@ -86,7 +86,8 @@ public class CategoriaResource {
 		if(opcional.isEmpty())
 			return new ResponseEntity<>( "Categoria inexistente", HttpStatus.NOT_FOUND);
 		
-		categoriaRepository.deleteByNome(nome);
+
+		categoriaRepository.delete(opcional.get());
 		return new ResponseEntity<>("Categoria excluida com sucesso!",HttpStatus.OK);
 	}
 	

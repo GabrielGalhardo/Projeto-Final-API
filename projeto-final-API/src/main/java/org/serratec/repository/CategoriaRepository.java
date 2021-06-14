@@ -11,5 +11,7 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long>{
 
 	void deleteByNome(String nome);
 
+	void removeByNome(String nome);
+
 	
 }
