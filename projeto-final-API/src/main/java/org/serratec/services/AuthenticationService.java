@@ -2,7 +2,7 @@ package org.serratec.services;
 
 import java.util.Optional;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import org.springframework.security.core.Authentication;
 import org.serratec.models.Client;
 import org.serratec.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;

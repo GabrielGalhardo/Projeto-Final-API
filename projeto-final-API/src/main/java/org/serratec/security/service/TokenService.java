@@ -2,7 +2,7 @@ package org.serratec.security.service;
 
 import java.util.Date;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import org.springframework.security.core.Authentication;
 import org.serratec.models.Client;
 import org.springframework.stereotype.Service;
 
