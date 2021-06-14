@@ -10,12 +10,12 @@ import org.serratec.dto.client.ClientSimplificadoDTO;
 import org.serratec.exception.ClientException;
 import org.serratec.models.Client;
 import org.serratec.repository.ClientRepository;
+import org.serratec.services.CpfValidService;
 import org.serratec.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,27 +30,8 @@ public class ClientResource {
 	ClientRepository clientRepository;
 	
 	@Autowired
-	EmailService emailService;
-	
-	private static final int[] pesoCPF = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
-	
-	   private static int calcularDigito(String str, int[] peso) {
-	      int soma = 0;
-	      for (int indice=str.length()-1, digito; indice >= 0; indice-- ) {
-	         digito = Integer.parseInt(str.substring(indice,indice+1));
-	         soma += digito*peso[peso.length-str.length()+indice];
-	      }
-	      soma = 11 - soma % 11;
-	      return soma > 9 ? 0 : soma;
-	   }
+	EmailService emailService;	
 
-	   public static boolean isValidCpf(String cpf) {
-	      if ((cpf==null) || (cpf.length()!=11)) return false;
-
-	      Integer digito1 = calcularDigito(cpf.substring(0,9), pesoCPF);
-	      Integer digito2 = calcularDigito(cpf.substring(0,9) + digito1, pesoCPF);
-	      return cpf.equals(cpf.substring(0,9) + digito1.toString() + digito2.toString());
-	   }
 	
 	@PostMapping("/client")
     public ResponseEntity<?> post(@Validated @RequestBody ClientCadastroDTO dto) {
@@ -58,7 +39,9 @@ public class ClientResource {
 		Client cliente = dto.toClient();
         
 		try {
-        	if(clientRepository.existsByCpf(cliente.getCpf()) || !isValidCpf(cliente.getCpf()))
+        	if(clientRepository.existsByCpf(cliente.getCpf()) 
+        			/*|| !CpfValidService.isValidCpf(cliente.getCpf())*/
+        			)
         		throw new ClientException("CPF invalido ou ja cadastrado");
         	
         	if(clientRepository.existsByUsername(cliente.getUsername()))

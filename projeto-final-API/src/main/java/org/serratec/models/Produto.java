@@ -25,6 +25,10 @@ public class Produto {
 	
 	@NotNull
 	@NotBlank
+	private String codigo;
+	
+	@NotNull
+	@NotBlank
 	private String descricao;
 	
 	@NotNull
@@ -104,6 +108,11 @@ public class Produto {
 	public void setPdf(byte[] pdf) {
 		this.pdf = pdf;
 	}
+	public void getCodigo(String codigo) {
+		// TODO Auto-generated method stub
+		
+	}
+
 		
 		
 }

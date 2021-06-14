@@ -8,6 +8,7 @@ import org.serratec.exception.ClientException;
 import org.serratec.models.Categoria;
 import org.serratec.models.Produto;
 import org.serratec.repository.CategoriaRepository;
+import org.springframework.http.ResponseEntity;
 
 
 
@@ -15,6 +16,7 @@ public class ProdutoCadastroDTO {
 
 		
 		private String nome;
+		private String codigo;
 		private String descricao;
 		private Double preco;
 		private Integer quantidadeEstoque;
@@ -27,6 +29,7 @@ public class ProdutoCadastroDTO {
 			
 			Produto produto = new Produto();
 			produto.setNome(this.nome);
+			produto.getCodigo(this.codigo);
 			produto.setDescricao(this.descricao);
 			produto.setPreco(this.preco);
 			produto.setQuantidadeEstoque(this.quantidadeEstoque);
@@ -52,7 +55,18 @@ public class ProdutoCadastroDTO {
 		}
 
 		
-		
+		public String getCodigo() {
+			return codigo;
+		}
+
+
+
+		public void setCodigo(String codigo) {
+			this.codigo = codigo;
+		}
+
+
+
 		public String getNome() {
 			return nome;
 		}
