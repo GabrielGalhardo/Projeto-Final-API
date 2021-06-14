@@ -30,7 +30,7 @@ public class Pedidos {
 	private List<Produtos_Pedidos> produtos;
 	private Double valorTotal;
 	private LocalDateTime dataDoPedido;
-	private String status;
+	private boolean status;
 		
 	@ManyToOne
 	private Client cliente;
@@ -60,10 +60,11 @@ public class Pedidos {
 	public void setDataDoPedido(LocalDateTime dataDoPedido) {
 		this.dataDoPedido = dataDoPedido;
 	}
-	public String getStatus() {
+
+	public boolean isStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
 	public Client getCliente() {

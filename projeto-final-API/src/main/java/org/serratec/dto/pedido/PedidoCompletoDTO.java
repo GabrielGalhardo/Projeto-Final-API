@@ -21,8 +21,7 @@ public class PedidoCompletoDTO {
 
 	public PedidoCompletoDTO(Pedidos pedido) throws VendaException {
 		
-		this.codigo = pedido.getNumeroPedido();
-		
+		this.codigo = pedido.getNumeroPedido();		
 		List<Produtos_Pedidos> produtoPedido = pedido.getProdutos();
 		
 		for (Produtos_Pedidos produto : produtoPedido) {
@@ -31,7 +30,7 @@ public class PedidoCompletoDTO {
 			
 			produtos.add(dto);
 		}
-		
+
 
 	}
 
