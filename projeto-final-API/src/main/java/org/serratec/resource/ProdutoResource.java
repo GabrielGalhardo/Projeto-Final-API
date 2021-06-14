@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +26,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
+@Api("Api de produtos")
 public class ProdutoResource {
 	
 	@Autowired
@@ -34,7 +39,7 @@ public class ProdutoResource {
 	@Autowired
 	CategoriaRepository categoriaRepository;
 	
-	
+	@ApiOperation(value = "adicionando produtos")
 	@PostMapping("/produto")
 	public ResponseEntity<?> postProduto(@Validated @RequestBody ProdutoCadastroDTO dto) {
 		
@@ -49,6 +54,7 @@ public class ProdutoResource {
 	}
 
 	
+	@ApiOperation(value = "pesquisando todos produtos")
 	@GetMapping("/produto/todos")
 	public ResponseEntity<?> getTodos(){
 		List<Produto> todos = produtoRepository.findAll();
@@ -61,6 +67,7 @@ public class ProdutoResource {
 	}
 	
 
+	@ApiOperation(value = "pesquisando produto por nome")
 	@GetMapping("/produto/{nome}")
 	public ResponseEntity<?> getProduto(@PathVariable String nome){
 		List<Produto> pesquisa = produtoRepository.findAllByNomeContainingIgnoreCase(nome);
@@ -71,20 +78,92 @@ public class ProdutoResource {
 		}
 	}
 	
+	@ApiOperation(value = "editar categoria do produto")
 	@PutMapping("/produto/categoria-edit/{codigo}")
 	public ResponseEntity<?> editCategoria(@PathVariable String codigo, @RequestBody Categoria categoria){
 		Produto pesquisa = produtoRepository.findByCodigo(codigo);
 		if (pesquisa == null) {
-			return new ResponseEntity<>("Nenhum produto encontrado com esse nome" , HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Nenhum produto encontrado com esse codigo" , HttpStatus.NOT_FOUND);
 		}else {
-			Optional<Categoria> categoriaValidator = categoriaRepository.findByNome(categoria.getNome());		
+			Optional<Categoria> categoriaValidator = categoriaRepository.findByNome(categoria.getNome());
 			if(categoriaValidator.isEmpty())
 				throw new ClientException("Categoria \"" + categoria.getNome() + "\"não encontrada");
 			pesquisa.setCategoria(categoria);
 			return new ResponseEntity<>("Categoria do produto" + pesquisa + " alterada." , HttpStatus.OK);
 		}
 	}
-			
+	
+	@ApiOperation(value = "editar nome do produto")
+	@PutMapping("/produto/nome-edit/{codigo}")
+	public ResponseEntity<?> editNome(@PathVariable String codigo, @RequestBody String nome){
+		Produto pesquisa = produtoRepository.findByCodigo(codigo);
+		if (pesquisa == null) {
+			return new ResponseEntity<>("Nenhum produto encontrado com esse codigo" , HttpStatus.NOT_FOUND);
+		}else {
+			pesquisa.setNome(nome);
+			return new ResponseEntity<>("Nome do produto" + pesquisa + " alterado." , HttpStatus.OK);
+		}
+	}
+	
+	@ApiOperation(value = "editar descricao do produto")
+	@PutMapping("/produto/descricao-edit/{codigo}")
+	public ResponseEntity<?> editDescricao(@PathVariable String codigo, @RequestBody String descricao){
+		Produto pesquisa = produtoRepository.findByCodigo(codigo);
+		if (pesquisa == null) {
+			return new ResponseEntity<>("Nenhum produto encontrado com esse codigo" , HttpStatus.NOT_FOUND);
+		}else {
+			pesquisa.setDescricao(descricao);
+			return new ResponseEntity<>("Descricao do produto" + pesquisa + " alterado." , HttpStatus.OK);
+		}
+	}
+	
+	@ApiOperation(value = "editar preco do produto")
+	@PutMapping("/produto/preco-edit/{codigo}")
+	public ResponseEntity<?> editPreco(@PathVariable String codigo, @RequestBody Double preco){
+		Produto pesquisa = produtoRepository.findByCodigo(codigo);
+		if (pesquisa == null) {
+			return new ResponseEntity<>("Nenhum produto encontrado com esse codigo" , HttpStatus.NOT_FOUND);
+		}else {
+			pesquisa.setPreco(preco);
+			return new ResponseEntity<>("Preco do produto" + pesquisa + " alterado." , HttpStatus.OK);
+		}
+	}
+	
+	@ApiOperation(value = "editar quantidade estoque do produto")
+	@PutMapping("/produto/quantidade-edit/{codigo}")
+	public ResponseEntity<?> editQuantidadeEstoque(@PathVariable String codigo, @RequestBody Integer quantidadeEstoque){
+		Produto pesquisa = produtoRepository.findByCodigo(codigo);
+		if (pesquisa == null) {
+			return new ResponseEntity<>("Nenhum produto encontrado com esse codigo" , HttpStatus.NOT_FOUND);
+		}else {
+			pesquisa.setQuantidadeEstoque(quantidadeEstoque);
+			return new ResponseEntity<>("Preco do produto" + pesquisa + " alterado." , HttpStatus.OK);
+		}
+	}
+	
+	@ApiOperation(value = "editar imagem do produto")
+	@PutMapping("/produto/imagem-edit/{codigo}")
+	public ResponseEntity<?> editQuantidadeEstoque(@PathVariable String codigo, @RequestBody String imagem){
+		Produto pesquisa = produtoRepository.findByCodigo(codigo);
+		if (pesquisa == null) {
+			return new ResponseEntity<>("Nenhum produto encontrado com esse codigo" , HttpStatus.NOT_FOUND);
+		}else {
+			pesquisa.setImagem(imagem);
+			return new ResponseEntity<>("Imagem do produto" + pesquisa + " alterada." , HttpStatus.OK);
+		}
+	}
+	
+	@ApiOperation(value = "deletar produto")		
+	@DeleteMapping("/produto/delete/{codigo}")
+	public ResponseEntity<?> deleteProduto(@PathVariable String codigo) {
+		Produto pesquisa = produtoRepository.findByCodigo(codigo);
+		if (pesquisa == null) {
+			return new ResponseEntity<>("Nenhum produto encontrado com esse codigo" , HttpStatus.NOT_FOUND);
+		}else {
+			produtoRepository.delete(pesquisa);
+			return new ResponseEntity<>("Produto " + pesquisa + " deletado." , HttpStatus.OK);
+		}
+	}
 		
 	
 }
