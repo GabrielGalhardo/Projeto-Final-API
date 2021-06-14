@@ -46,8 +46,6 @@ public class Client {
 	private String telefone;
 	private LocalDate dataNascimento;
 
-	@NotNull
-	@NotBlank
 	@OneToOne(cascade = CascadeType.PERSIST)
 	private Endereco endereco;
 	//@OneToMany(mappedBy = "cliente")
