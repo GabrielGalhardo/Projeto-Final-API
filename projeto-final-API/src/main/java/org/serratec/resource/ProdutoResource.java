@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -75,7 +76,7 @@ public class ProdutoResource {
 	public ResponseEntity<?> editCategoria(@PathVariable String codigo, @RequestBody Categoria categoria){
 		Produto pesquisa = produtoRepository.findByCodigo(codigo);
 		if (pesquisa == null) {
-			return new ResponseEntity<>("Nenhum produto encontrado com esse nome" , HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Nenhum produto encontrado com esse codigo" , HttpStatus.NOT_FOUND);
 		}else {
 			Optional<Categoria> categoriaValidator = categoriaRepository.findByNome(categoria.getNome());		
 			if(categoriaValidator.isEmpty())
@@ -85,6 +86,16 @@ public class ProdutoResource {
 		}
 	}
 			
+	@DeleteMapping("/produto/delete/{codigo}")
+	public ResponseEntity<?> deleteProduto(@PathVariable String codigo) {
+		Produto pesquisa = produtoRepository.findByCodigo(codigo);
+		if (pesquisa == null) {
+			return new ResponseEntity<>("Nenhum produto encontrado com esse codigo" , HttpStatus.NOT_FOUND);
+		}else {
+			produtoRepository.delete(pesquisa);
+			return new ResponseEntity<>("Produto " + pesquisa + " deletado." , HttpStatus.OK);
+		}
+	}
 		
 	
 }
