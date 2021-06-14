@@ -26,7 +26,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
+@Api("Api de produtos")
 public class ProdutoResource {
 	
 	@Autowired
@@ -35,7 +39,7 @@ public class ProdutoResource {
 	@Autowired
 	CategoriaRepository categoriaRepository;
 	
-	
+	@ApiOperation(value = "adicionando produtos")
 	@PostMapping("/produto")
 	public ResponseEntity<?> postProduto(@Validated @RequestBody ProdutoCadastroDTO dto) {
 		
@@ -50,6 +54,7 @@ public class ProdutoResource {
 	}
 
 	
+	@ApiOperation(value = "pesquisando todos produtos")
 	@GetMapping("/produto/todos")
 	public ResponseEntity<?> getTodos(){
 		List<Produto> todos = produtoRepository.findAll();
@@ -62,6 +67,7 @@ public class ProdutoResource {
 	}
 	
 
+	@ApiOperation(value = "pesquisando produto por nome")
 	@GetMapping("/produto/{nome}")
 	public ResponseEntity<?> getProduto(@PathVariable String nome){
 		List<Produto> pesquisa = produtoRepository.findAllByNomeContainingIgnoreCase(nome);
@@ -72,6 +78,7 @@ public class ProdutoResource {
 		}
 	}
 	
+	@ApiOperation(value = "editar categoria do produto")
 	@PutMapping("/produto/categoria-edit/{codigo}")
 	public ResponseEntity<?> editCategoria(@PathVariable String codigo, @RequestBody Categoria categoria){
 		Produto pesquisa = produtoRepository.findByCodigo(codigo);
@@ -85,7 +92,9 @@ public class ProdutoResource {
 			return new ResponseEntity<>("Categoria do produto" + pesquisa + " alterada." , HttpStatus.OK);
 		}
 	}
-			
+	
+	
+	@ApiOperation(value = "deletar produto")		
 	@DeleteMapping("/produto/delete/{codigo}")
 	public ResponseEntity<?> deleteProduto(@PathVariable String codigo) {
 		Produto pesquisa = produtoRepository.findByCodigo(codigo);
