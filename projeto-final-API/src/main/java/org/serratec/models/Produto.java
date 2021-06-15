@@ -47,6 +47,9 @@ public class Produto {
 	@ManyToOne
 	private Categoria categoria;
 		
+	@NotNull
+	private Boolean ativado;
+	
 	public String getImagem() {
 		return imagem;
 	}
@@ -109,8 +112,21 @@ public class Produto {
 	}
 	public void getCodigo(String codigo) {
 		// TODO Auto-generated method stub
-		
 	}
+	public String getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+	public Boolean getAtivado() {
+		return ativado;
+	}
+	public void setAtivado(Boolean ativado) {
+		this.ativado = ativado;
+	}
+	
+	
 
 		
 		

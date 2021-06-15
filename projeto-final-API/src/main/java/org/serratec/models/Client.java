@@ -48,8 +48,8 @@ public class Client{
 
 	@OneToOne(cascade = CascadeType.PERSIST)
 	private Endereco endereco;
-	//@OneToMany(mappedBy = "cliente")
-	//private List<Pedidos> pedidos;
+	
+
 	
 	public Long getId() {
 		return id;
@@ -105,5 +105,5 @@ public class Client{
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-	
+
 }

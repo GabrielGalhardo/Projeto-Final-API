@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.serratec.dto.categoria.CategoriaCompletaDTO;
 import org.serratec.dto.produto.ProdutoPorCategoriaDTO;
 import org.serratec.models.Categoria;
 import org.serratec.models.Produto;
@@ -13,13 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 public class CategoriaResource {
@@ -39,11 +40,19 @@ public class CategoriaResource {
 
 	@GetMapping("/categoria/todos")
 	public ResponseEntity<?> getTodos(){
-		List<Categoria> categoria = categoriaRepository.findAll();
-		if(categoria.isEmpty())
-			return new ResponseEntity<>("Nenhuma categoria cadastrada ainda", HttpStatus.NOT_FOUND);	
-		return new ResponseEntity<>(categoria, HttpStatus.OK);
+		List<Categoria> todos = categoriaRepository.findAll();
+		List<CategoriaCompletaDTO> dtos = new ArrayList<>();
+		
+		if(todos.isEmpty())
+			return new ResponseEntity<>("Nenhuma categoria cadastrada ainda", HttpStatus.NOT_FOUND);
+		
+		for (Categoria categoria : todos) 
+			dtos.add(new CategoriaCompletaDTO(categoria));
+		
+		return new ResponseEntity<>(dtos, HttpStatus.OK);
 	}
+			
+	
 
 	
 	@GetMapping("/categoria/especifico/{nome}")
@@ -76,19 +85,35 @@ public class CategoriaResource {
 		return new ResponseEntity<>(dtos, HttpStatus.OK);	
 	}
 	
+	@PutMapping("/categoria/desabilitar/{nome}")
+    public void putCategoriaDesabilitar(@PathVariable String nome) {
+
+        Optional<Categoria> opcional = categoriaRepository.findByNome(nome);
+
+        if(opcional.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria inexistente");
+
+        Categoria newCategoria = opcional.get();
+        newCategoria.setAtivado(false);
+
+        categoriaRepository.save(newCategoria);
+        throw new ResponseStatusException(HttpStatus.OK, "Categoria desabilitada");
+    }
 	
 	
-	@DeleteMapping("/categoria/{nome}")
-	public ResponseEntity<?> deleteCategoria(@PathVariable String nome) {
+	@PutMapping("/categoria/habilitar/{nome}")
+    public void putCategoriaHabilitar(@PathVariable String nome) {
 
-		Optional<Categoria> opcional = categoriaRepository.findByNome(nome);
-		
-		if(opcional.isEmpty())
-			return new ResponseEntity<>( "Categoria inexistente", HttpStatus.NOT_FOUND);
-		
+        Optional<Categoria> opcional = categoriaRepository.findByNome(nome);
 
-		categoriaRepository.delete(opcional.get());
-		return new ResponseEntity<>("Categoria excluida com sucesso!",HttpStatus.OK);
-	}
+        if(opcional.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria inexistente");
+
+        Categoria newCategoria = opcional.get();
+        newCategoria.setAtivado(true);
+
+        categoriaRepository.save(newCategoria);
+        throw new ResponseStatusException(HttpStatus.OK, "Categoria habilitada");
+    }
 	
 }
