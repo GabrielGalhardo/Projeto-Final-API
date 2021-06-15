@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.serratec.exception.VendaException;
 import org.serratec.models.Client;
-import org.serratec.models.Pedidos;
-import org.serratec.models.Produtos_Pedidos;
+import org.serratec.models.Pedido;
+import org.serratec.models.ItemPedido;
 
 
 public class PedidoCompletoDTO {
@@ -19,12 +19,12 @@ public class PedidoCompletoDTO {
 	private Client client;
 	
 
-	public PedidoCompletoDTO(Pedidos pedido) throws VendaException {
+	public PedidoCompletoDTO(Pedido pedido) throws VendaException {
 		
 		this.codigo = pedido.getNumeroPedido();		
-		List<Produtos_Pedidos> produtoPedido = pedido.getProdutos();
+		List<ItemPedido> produtoPedido = pedido.getItens();
 		
-		for (Produtos_Pedidos produto : produtoPedido) {
+		for (ItemPedido produto : produtoPedido) {
 			
 			PedidoItensDTO dto = new PedidoItensDTO(produto.getProduto());
 			

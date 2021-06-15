@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 import com.sun.istack.NotNull;
 
 @Entity
-public class Produtos_Pedidos {
+public class ItemPedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -18,7 +18,7 @@ public class Produtos_Pedidos {
 	@ManyToOne
 	private Produto produto;
 	@ManyToOne
-	private Pedidos pedidos;
+	private Pedido pedido;
 	private Integer quantidade;
 	private Double preco;
 	
@@ -34,11 +34,11 @@ public class Produtos_Pedidos {
 	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}
-	public Pedidos getPedidos() {
-		return pedidos;
+	public Pedido getPedido() {
+		return pedido;
 	}
-	public void setPedidos(Pedidos pedidos) {
-		this.pedidos = pedidos;
+	public void setPedidos(Pedido pedido) {
+		this.pedido = pedido;
 	}
 	public Integer getQuantidade() {
 		return quantidade;

@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.serratec.dto.client.ClientCompletoDTO;
 import org.serratec.dto.produto.ProdutoCadastroDTO;
 import org.serratec.dto.produto.ProdutoSimplificadoDTO;
 import org.serratec.exception.ClientException;
+import org.serratec.exception.ProdutoException;
 import org.serratec.models.Categoria;
-import org.serratec.models.Client;
 import org.serratec.models.Produto;
 import org.serratec.repository.CategoriaRepository;
 import org.serratec.repository.ProdutoRepository;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
@@ -43,11 +41,16 @@ public class ProdutoResource {
 	@PostMapping("/produto")
 	public ResponseEntity<?> postProduto(@Validated @RequestBody ProdutoCadastroDTO dto) {
 		
-		try {
-			Produto produto = dto.toProduto(categoriaRepository);
+		try {Produto produto = dto.toProduto(categoriaRepository);
+			
+			if(produto.getPreco() <= 0 )
+				throw new ProdutoException("Produto com preço inválido ou menor que 0");
+			
 			produtoRepository.save(produto);
+			
 			return new ResponseEntity<>("Produto cadastrado com sucesso!", HttpStatus.OK);
-		} catch (ClientException e) {
+		
+		} catch (ProdutoException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		

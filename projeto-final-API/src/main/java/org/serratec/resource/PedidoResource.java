@@ -1,27 +1,18 @@
 package org.serratec.resource;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.serratec.dto.pedido.PedidoCadastroDTO;
-import org.serratec.dto.pedido.PedidoItensDTO;
-import org.serratec.dto.produto.ProdutoPorCategoriaDTO;
-import org.serratec.dto.produto.ProdutoSimplificadoDTO;
-import org.serratec.exception.ClientException;
 import org.serratec.exception.PedidoException;
-import org.serratec.models.Categoria;
-import org.serratec.models.Pedidos;
-import org.serratec.models.Produto;
-import org.serratec.models.Produtos_Pedidos;
+import org.serratec.models.ItemPedido;
+import org.serratec.models.Pedido;
 import org.serratec.repository.CategoriaRepository;
 import org.serratec.repository.PedidoRepository;
 import org.serratec.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,10 +34,11 @@ public class PedidoResource {
 	@Autowired
 	PedidoRepository pedidoRepository;
 	
+	
 	@ApiOperation(value = "pesquisando todos pedidos")
 	@GetMapping("/pedido/todos")
 	public ResponseEntity<?> getPedidos() {
-		List<Pedidos> pedidos = pedidoRepository.findAll();
+		List<Pedido> pedidos = pedidoRepository.findAll();
 		
 		return new ResponseEntity<>(pedidos, HttpStatus.OK);
 	}
@@ -54,7 +46,7 @@ public class PedidoResource {
 	@ApiOperation(value = "pesquisando um unico pedido")
 	@GetMapping("/pedido/{numeroPedido}")
 	public ResponseEntity<?> getPedido(@PathVariable String numeroPedido){
-		Optional<Pedidos> pedido = pedidoRepository.findByNumeroPedido(numeroPedido);
+		Optional<Pedido> pedido = pedidoRepository.findByNumeroPedido(numeroPedido);
 		if (pedido.isEmpty()) {
 			throw new PedidoException("Pedido \"" + numeroPedido + "\"não encontrado");
 		}
@@ -65,9 +57,13 @@ public class PedidoResource {
 	@ApiOperation(value = "criar pedido")
 	@PostMapping("/pedido")
 	public ResponseEntity<?> postPedido(@RequestBody PedidoCadastroDTO dto){
-		Pedidos pedido = dto.toPedido();
+		Pedido pedido = dto.toPedido();
 		
 		try {
+			for(ItemPedido item : pedido.getItens()) {
+				if(item.getQuantidade() == 0)
+					throw new PedidoException("Ops, o item \"" + item.getProduto().getNome() + "\" está com uma quantidade inválida ou menor que 1");
+				}
 			pedidoRepository.save(pedido);
 			return new ResponseEntity<>("Pedido criado com sucesso", HttpStatus.OK);
 		} catch (PedidoException e) {
@@ -78,12 +74,12 @@ public class PedidoResource {
 	@ApiOperation(value = "finalizarPedido")
 	@PutMapping("/pedido/finalizar/{numeroPedido}")
 	public ResponseEntity<?> finalizarPedido(@PathVariable String numeroPedido){
-		Optional<Pedidos> pedidoOptional = pedidoRepository.findByNumeroPedido(numeroPedido);
+		Optional<Pedido> pedidoOptional = pedidoRepository.findByNumeroPedido(numeroPedido);
 		if (pedidoOptional.isEmpty()) {
 			throw new PedidoException("Pedido nao encontrado");
 		}
 		
-		Pedidos pedido = pedidoOptional.get();
+		Pedido pedido = pedidoOptional.get();
 		
 		pedido.setStatus(true);
 		
@@ -93,14 +89,14 @@ public class PedidoResource {
 	
 	@ApiOperation(value = "adicionar novos itens ao pedido")
 	@PutMapping("pedido/adicionar/{numeroPedido}")
-	public ResponseEntity<?> adicionarProdutos(@PathVariable String numeroPedido, @RequestBody Produtos_Pedidos produto){
-		Optional<Pedidos> pedidoOpt = pedidoRepository.findByNumeroPedido(numeroPedido);
+	public ResponseEntity<?> adicionarProdutos(@PathVariable String numeroPedido, @RequestBody ItemPedido produto){
+		Optional<Pedido> pedidoOpt = pedidoRepository.findByNumeroPedido(numeroPedido);
 		if (pedidoOpt.isEmpty()) {
 			throw new PedidoException("Pedido nao encontrado");
 		}
 		
-		Pedidos pedido = pedidoOpt.get();
-		pedido.getProdutos().add(produto);
+		Pedido pedido = pedidoOpt.get();
+		pedido.getItens().add(produto);
 		
 		return new ResponseEntity<>("Produto adicionado", HttpStatus.OK);
 	}

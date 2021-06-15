@@ -8,7 +8,7 @@ import org.serratec.exception.ClientException;
 import org.serratec.models.Categoria;
 import org.serratec.models.Produto;
 import org.serratec.repository.CategoriaRepository;
-import org.springframework.http.ResponseEntity;
+
 
 
 

@@ -2,12 +2,12 @@ package org.serratec.repository;
 import java.util.Optional;
 
 import org.serratec.dto.pedido.PedidoCadastroDTO;
-import org.serratec.models.Pedidos;
+import org.serratec.models.Pedido;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PedidoRepository extends JpaRepository <Pedidos, Long> {
+public interface PedidoRepository extends JpaRepository <Pedido, Long> {
 
-	Optional<Pedidos> findByNumeroPedido(String numeroPedido);
+	Optional<Pedido> findByNumeroPedido(String numeroPedido);
 
 
  

@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 import com.sun.istack.NotNull;
 
 @Entity
-public class Pedidos {
+public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -27,7 +27,7 @@ public class Pedidos {
 	@NotNull
 	@NotBlank
 	@OneToMany(mappedBy="pedidos")
-	private List<Produtos_Pedidos> produtos;
+	private List<ItemPedido> itens;
 	private Double valorTotal;
 	private LocalDateTime dataDoPedido;
 	private boolean status;
@@ -74,11 +74,11 @@ public class Pedidos {
 		this.cliente = cliente;
 	}
 	
-	public List<Produtos_Pedidos> getProdutos() {
-		return produtos;
+	public List<ItemPedido> getItens() {
+		return itens;
 	}
-	public void setProdutos(List<Produtos_Pedidos> produtos) {
-		this.produtos = produtos;
+	public void setItens(List<ItemPedido> itens) {
+		this.itens = itens;
 	}
 	public String gerarNumeroPedido() {
 		if (this.numeroPedido == null || this.numeroPedido.isBlank()) {
