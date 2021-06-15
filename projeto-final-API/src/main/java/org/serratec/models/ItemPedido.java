@@ -37,7 +37,7 @@ public class ItemPedido {
 	public Pedido getPedido() {
 		return pedido;
 	}
-	public void setPedidos(Pedido pedido) {
+	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 	}
 	public Integer getQuantidade() {

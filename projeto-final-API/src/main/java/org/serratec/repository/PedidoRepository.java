@@ -1,7 +1,6 @@
 package org.serratec.repository;
 import java.util.Optional;
 
-import org.serratec.dto.pedido.PedidoCadastroDTO;
 import org.serratec.models.Pedido;
 import org.springframework.data.jpa.repository.JpaRepository;
 
