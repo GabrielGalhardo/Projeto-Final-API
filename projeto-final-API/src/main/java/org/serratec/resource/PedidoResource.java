@@ -13,6 +13,7 @@ import org.serratec.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -100,5 +101,11 @@ public class PedidoResource {
 		
 		return new ResponseEntity<>("Produto adicionado", HttpStatus.OK);
 	}
+	
+	 @ApiOperation(value = "Deletando pedido ")
+	    @DeleteMapping("pessoa/delete/{numeroPedido}")
+	    public void deletePedido(@PathVariable String numero) {
+	    	pedidoRepository.deleteByNumeroPedido(numero);
+	    }
 	
 }

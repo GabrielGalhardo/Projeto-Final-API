@@ -8,6 +8,8 @@ public interface PedidoRepository extends JpaRepository <Pedido, Long> {
 
 	Optional<Pedido> findByNumeroPedido(String numeroPedido);
 
+	void deleteByNumeroPedido(String numero);
+
 
  
 }
