@@ -10,6 +10,7 @@ import org.serratec.models.Pedido;
 import org.serratec.repository.CategoriaRepository;
 import org.serratec.repository.PedidoRepository;
 import org.serratec.repository.ProdutoRepository;
+import org.serratec.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,8 @@ public class PedidoResource {
 	@Autowired
 	PedidoRepository pedidoRepository;
 	
+	@Autowired
+    EmailService emailService;
 	
 	@ApiOperation(value = "pesquisando todos pedidos")
 	@GetMapping("/pedido/todos")
@@ -83,6 +86,8 @@ public class PedidoResource {
 		Pedido pedido = pedidoOptional.get();
 		
 		pedido.setStatus(true);
+		
+		emailService.enviar("Pedido Finalizado!", "Seu pedido foi aprovado, estamos aguardando a confirmação do pagamento", "Serratec@e-commerceSerratec", pedido.getCliente().getEmail());
 		
 		return new ResponseEntity<>("Pedido finalizado", HttpStatus.OK);
 		

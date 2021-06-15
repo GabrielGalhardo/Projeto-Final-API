@@ -12,7 +12,7 @@ import org.serratec.models.ItemPedido;
 public class PedidoCompletoDTO {
 
 	private String codigo;
-	private List<PedidoItensDTO> produtos;
+	private List<PedidoItensVisualizacaoDTO> produtos;
 	private Double valorTotal;
 	private LocalDateTime dataPedido;
 	private String status;
@@ -26,7 +26,7 @@ public class PedidoCompletoDTO {
 		
 		for (ItemPedido produto : produtoPedido) {
 			
-			PedidoItensDTO dto = new PedidoItensDTO(produto.getProduto());
+			PedidoItensVisualizacaoDTO dto = new PedidoItensVisualizacaoDTO(produto.getProduto());
 			
 			produtos.add(dto);
 		}
@@ -40,10 +40,10 @@ public class PedidoCompletoDTO {
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
-	public List<PedidoItensDTO> getProdutos() {
+	public List<PedidoItensVisualizacaoDTO> getProdutos() {
 		return produtos;
 	}
-	public void setProdutos(List<PedidoItensDTO> produtos) {
+	public void setProdutos(List<PedidoItensVisualizacaoDTO> produtos) {
 		this.produtos = produtos;
 	}
 	public Double getValorTotal() {

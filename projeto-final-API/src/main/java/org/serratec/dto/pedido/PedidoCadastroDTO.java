@@ -1,9 +1,14 @@
 package org.serratec.dto.pedido;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+
+import org.serratec.exception.ClientException;
 import org.serratec.models.Client;
-import org.serratec.models.Pedido;
 import org.serratec.models.ItemPedido;
+import org.serratec.models.Pedido;
+import org.serratec.models.Produto;
+import org.serratec.repository.ProdutoRepository;
 
 public class PedidoCadastroDTO {
 
@@ -15,16 +20,30 @@ public class PedidoCadastroDTO {
     private Client clientes;
     
 
-    public Pedido toPedido() {
+    public Pedido toPedido(ProdutoRepository produtoRepository) {
         Pedido pedido = new Pedido();
         
+
         double valor = 0;
-        for(ItemPedido item : itens) {
-        	valor +=  item.getPreco() * item.getQuantidade();
+        
+        for(ItemPedido item : itens) {        	
+
+        	valor +=  item.getProduto().getPreco() * item.getQuantidade();
         }
         
+        Optional<Produto> produto = produtoRepository.findByCodigo(item.getProduto().getCodigo());
+        
+        if(produto.isEmpty())
+        	throw new ClientException("Produto \"" + item.getProduto()+ "\"não encontrado");
+        
+        if(produto.get().getAtivado()  == false)
+        	throw new ClientException("Produto \"" + item.getProduto() + "\"não está ativado");
+        
+        pedido.getItens().get (item);
+        
+        
         pedido.setValorTotal(valor);
-        pedido.setNumeroPedido(this.numeroPedido);
+        pedido.setNumeroPedido(pedido.gerarNumeroPedido());
         pedido.setItens(this.itens);        	
         pedido.setStatus(false);
         pedido.setCliente(this.clientes);

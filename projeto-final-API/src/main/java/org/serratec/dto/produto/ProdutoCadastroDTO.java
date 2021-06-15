@@ -49,6 +49,9 @@ public class ProdutoCadastroDTO {
 			if(categoria.isEmpty())
 				throw new ClientException("Categoria \"" + this.categoria + "\"não encontrada");
 			
+			if(categoria.get().getAtivado()  == false)
+				throw new ClientException("Categoria \"" + this.categoria + "\"não está ativada");
+			
 			produto.setCategoria(categoria.get());
 			
 			

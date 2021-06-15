@@ -17,10 +17,8 @@ public class ItemPedido {
 	
 	@ManyToOne
 	private Produto produto;
-	@ManyToOne
-	private Pedido pedido;
+	
 	private Integer quantidade;
-	private Double preco;
 	
 	public Long getId() {
 		return id;
@@ -34,24 +32,13 @@ public class ItemPedido {
 	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}
-	public Pedido getPedido() {
-		return pedido;
-	}
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
-	}
 	public Integer getQuantidade() {
 		return quantidade;
 	}
 	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
 	}
-	public Double getPreco() {
-		return preco;
-	}
-	public void setPreco(Double preco) {
-		this.preco = preco;
-	}
+
 		
 		
 }

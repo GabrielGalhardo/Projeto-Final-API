@@ -2,14 +2,14 @@ package org.serratec.dto.pedido;
 
 import org.serratec.models.Produto;
 
-public class PedidoItensDTO {
+public class PedidoItensVisualizacaoDTO {
 
 	private String produto;
 	private Integer quantidade;
 	private Double preco;
 	
 	
-	public PedidoItensDTO(Produto produto) {
+	public PedidoItensVisualizacaoDTO(Produto produto) {
 		this.produto = produto.getNome();
 		this.quantidade = produto.getQuantidadeEstoque();
 		this.preco = produto.getPreco();
