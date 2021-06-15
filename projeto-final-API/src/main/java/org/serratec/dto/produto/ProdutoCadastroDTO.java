@@ -24,6 +24,7 @@ public class ProdutoCadastroDTO {
 		private String imagem; 
 		private String imgBase64;
 		private String pdfBase64;
+		private boolean ativado;
 		
 		public Produto toProduto(CategoriaRepository categoriaRepository) {
 			
@@ -35,7 +36,7 @@ public class ProdutoCadastroDTO {
 			produto.setQuantidadeEstoque(this.quantidadeEstoque);
 			produto.setDataCadastro(LocalDateTime.now());
 			produto.setImagem(this.imagem);
-		//	produto.setCategoria(this.categoria);
+			produto.setAtivado(true);
 				
 			if(pdfBase64 != null) {
 				byte[] pdf = Base64.decodeBase64(pdfBase64);
@@ -58,15 +59,9 @@ public class ProdutoCadastroDTO {
 		public String getCodigo() {
 			return codigo;
 		}
-
-
-
 		public void setCodigo(String codigo) {
 			this.codigo = codigo;
 		}
-
-
-
 		public String getNome() {
 			return nome;
 		}
@@ -114,6 +109,12 @@ public class ProdutoCadastroDTO {
 		}
 		public void setPdfBase64(String pdfBase64) {
 			this.pdfBase64 = pdfBase64;
+		}
+		public boolean isAtivado() {
+			return ativado;
+		}
+		public void setAtivado(boolean ativado) {
+			this.ativado = ativado;
 		}
 		
 		
