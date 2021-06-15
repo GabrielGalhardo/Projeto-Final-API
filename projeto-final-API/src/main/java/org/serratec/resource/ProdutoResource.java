@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.serratec.dto.produto.ProdutoCadastroDTO;
 import org.serratec.dto.produto.ProdutoSimplificadoDTO;
 import org.serratec.exception.ClientException;
+import org.serratec.exception.ProdutoException;
 import org.serratec.models.Categoria;
 import org.serratec.models.Produto;
 import org.serratec.repository.CategoriaRepository;
@@ -40,11 +41,16 @@ public class ProdutoResource {
 	@PostMapping("/produto")
 	public ResponseEntity<?> postProduto(@Validated @RequestBody ProdutoCadastroDTO dto) {
 		
-		try {
-			Produto produto = dto.toProduto(categoriaRepository);
+		try {Produto produto = dto.toProduto(categoriaRepository);
+			
+			if(produto.getPreco() <= 0 )
+				throw new ProdutoException("Produto com preço inválido ou menor que 0");
+			
 			produtoRepository.save(produto);
+			
 			return new ResponseEntity<>("Produto cadastrado com sucesso!", HttpStatus.OK);
-		} catch (ClientException e) {
+		
+		} catch (ProdutoException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		
