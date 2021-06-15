@@ -150,9 +150,7 @@ public class ProdutoResource {
 		}
 	}
 	
-	
-	
-	
+
 	@PutMapping("/produto/desabilitar/{codigo}")
     public void putCategoriaDesabilitar(@PathVariable String codigo) {
 
@@ -175,13 +173,13 @@ public class ProdutoResource {
         Optional<Produto> opcional = produtoRepository.findByCodigo(codigo);
 
         if(opcional.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto inexistente");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto inexistente!");
 
         Produto newProduto = opcional.get();
         newProduto.setAtivado(true);
 
         produtoRepository.save(newProduto);
-        throw new ResponseStatusException(HttpStatus.OK, "Categoria desabilitada");
+        throw new ResponseStatusException(HttpStatus.OK, "Categoria desabilitada!");
     }	
 	
 }
