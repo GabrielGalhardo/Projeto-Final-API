@@ -30,7 +30,7 @@ public class ProdutoCadastroDTO {
 			
 			Produto produto = new Produto();
 			produto.setNome(this.nome);
-			produto.getCodigo(this.codigo);
+			produto.setCodigo(this.codigo);
 			produto.setDescricao(this.descricao);
 			produto.setPreco(this.preco);
 			produto.setQuantidadeEstoque(this.quantidadeEstoque);

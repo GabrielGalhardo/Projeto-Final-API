@@ -43,6 +43,9 @@ public class ProdutoResource {
 		
 		try {Produto produto = dto.toProduto(categoriaRepository);
 			
+    	if (produtoRepository.existsByCodigo(produto.getCodigo()))
+    		throw new ProdutoException("Já existe um produto com este codigo"); 
+    	
 			if(produto.getPreco() <= 0 )
 				throw new ProdutoException("Produto com preço inválido ou menor que 0");
 			

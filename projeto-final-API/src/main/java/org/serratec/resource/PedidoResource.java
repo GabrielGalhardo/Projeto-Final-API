@@ -5,9 +5,12 @@ import java.util.Optional;
 
 import org.serratec.dto.pedido.PedidoCadastroDTO;
 import org.serratec.exception.PedidoException;
+import org.serratec.models.Client;
 import org.serratec.models.ItemPedido;
 import org.serratec.models.Pedido;
+import org.serratec.models.Produto;
 import org.serratec.repository.CategoriaRepository;
+import org.serratec.repository.ClientRepository;
 import org.serratec.repository.ItemPedidoRepository;
 import org.serratec.repository.PedidoRepository;
 import org.serratec.repository.ProdutoRepository;
@@ -39,6 +42,9 @@ public class PedidoResource {
 	
 	@Autowired
 	ItemPedidoRepository itemPedidoRepository;
+	
+	@Autowired
+	ClientRepository clienteRepository;
 		
 	@Autowired
     EmailService emailService;
@@ -68,13 +74,30 @@ public class PedidoResource {
 		Pedido pedido = dto.toPedido(produtoRepository, itemPedidoRepository, pedidoRepository);
 		
 		try {
+			
+			String produtos = "";
+			
 			for(ItemPedido item : pedido.getItens()) {
 				if(item.getQuantidade() == 0)
 					throw new PedidoException("Ops, o item \"" + item.getProduto().getNome() + "\" está com uma quantidade inválida ou menor que 1");
+				
+				Optional<Produto> produtoOptional = produtoRepository.findById(item.getProduto().getId());
+				if (produtoOptional.isEmpty()) {
+					throw new PedidoException("Produto não encontrado");
 				}
+				
+				produtos +=  "Produto: " + produtoOptional.get().getNome() + "\n" + "Quantidade: " + item.getQuantidade() + "\n" + "\n";
+				
+			}
+			
 			pedidoRepository.save(pedido);
 			
-			emailService.enviar("Bem vindo", "Seu pedido foi armazenado", "Serratec@gmail.com", pedido.getCliente().getEmail());
+			Optional<Client> clienteId = clienteRepository.findById(pedido.getCliente().getId()) ;
+			if (clienteId.isEmpty()) {
+				throw new PedidoException("Cliente não encontrado");
+			}
+			
+			emailService.enviar("Bem vindo", "Seu pedido foi armazenado!!" + "\n" + produtos + "\n" + "Valor Total: R$" + pedido.getValorTotal() + "\n" + "\n" + "O pedido será entregue em até dois dias!", "Serratec@gmail.com", clienteId.get().getEmail());
 
 
 			return new ResponseEntity<>("Pedido criado com sucesso", HttpStatus.OK);
@@ -88,14 +111,14 @@ public class PedidoResource {
 	public ResponseEntity<?> finalizarPedido(@PathVariable String numeroPedido){
 		Optional<Pedido> pedidoOptional = pedidoRepository.findByNumeroPedido(numeroPedido);
 		if (pedidoOptional.isEmpty()) {
-			throw new PedidoException("Pedido nao encontrado");
+			throw new PedidoException("Pedido não encontrado");
 		}
 		
 		Pedido pedido = pedidoOptional.get();
 		
 		pedido.setStatus(true);
 		
-		emailService.enviar("Pedido Finalizado!", "Seu pedido foi aprovado, estamos aguardando a confirmação do pagamento", "Serratec@e-commerceSerratec", pedido.getCliente().getEmail());
+		emailService.enviar("Pedido Finalizado!", "Seu pedido foi aprovado, estamos aguardando a confirmação do pagamento", "Serratec@gmail.com", pedido.getCliente().getEmail());
 		
 		return new ResponseEntity<>("Pedido finalizado", HttpStatus.OK);
 		
@@ -106,7 +129,7 @@ public class PedidoResource {
 	public ResponseEntity<?> adicionarProdutos(@PathVariable String numeroPedido, @RequestBody ItemPedido produto){
 		Optional<Pedido> pedidoOpt = pedidoRepository.findByNumeroPedido(numeroPedido);
 		if (pedidoOpt.isEmpty()) {
-			throw new PedidoException("Pedido nao encontrado");
+			throw new PedidoException("Pedido não encontrado");
 		}
 		
 		Pedido pedido = pedidoOpt.get();

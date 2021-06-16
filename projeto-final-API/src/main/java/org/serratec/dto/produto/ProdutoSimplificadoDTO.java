@@ -8,13 +8,14 @@ public class ProdutoSimplificadoDTO {
 	private String nome;
 	private Double preco;
 	private CategoriaSimplesDTO categoria;
-
+	private String codigo;
 	
 	
 	public ProdutoSimplificadoDTO(Produto produto) {
 		
 		this.nome = produto.getNome();
 		this.preco = produto.getPreco();
+		this.codigo = produto.getCodigo();
 		this.categoria = new CategoriaSimplesDTO(produto.getCategoria());
 	}
 
@@ -37,4 +38,13 @@ public class ProdutoSimplificadoDTO {
 		this.categoria = categoria;
 	}
 
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	
 }
