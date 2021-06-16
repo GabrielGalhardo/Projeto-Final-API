@@ -35,7 +35,7 @@ public class ProdutoCadastroDTO {
 			produto.setPreco(this.preco);
 			produto.setQuantidadeEstoque(this.quantidadeEstoque);
 			produto.setDataCadastro(LocalDateTime.now());
-			produto.setImagem(this.imagem);
+			//produto.setImagem(this.imagem);
 			produto.setAtivado(true);
 				
 			if(pdfBase64 != null) {

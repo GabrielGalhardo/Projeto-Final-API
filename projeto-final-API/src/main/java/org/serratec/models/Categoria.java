@@ -21,7 +21,7 @@ public class Categoria {
 	@NotBlank
 	private String nome;
 	private String descricao;
-
+	
 	@NotNull
 	private Boolean ativado;
 	

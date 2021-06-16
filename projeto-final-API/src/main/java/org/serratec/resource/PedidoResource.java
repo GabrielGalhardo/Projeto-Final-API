@@ -8,6 +8,7 @@ import org.serratec.exception.PedidoException;
 import org.serratec.models.ItemPedido;
 import org.serratec.models.Pedido;
 import org.serratec.repository.CategoriaRepository;
+import org.serratec.repository.ItemPedidoRepository;
 import org.serratec.repository.PedidoRepository;
 import org.serratec.repository.ProdutoRepository;
 import org.serratec.services.EmailService;
@@ -37,6 +38,9 @@ public class PedidoResource {
 	PedidoRepository pedidoRepository;
 	
 	@Autowired
+	ItemPedidoRepository itemPedidoRepository;
+	
+	@Autowired
     EmailService emailService;
 	
 	@ApiOperation(value = "pesquisando todos pedidos")
@@ -61,7 +65,7 @@ public class PedidoResource {
 	@ApiOperation(value = "criar pedido")
 	@PostMapping("/pedido")
 	public ResponseEntity<?> postPedido(@RequestBody PedidoCadastroDTO dto){
-		Pedido pedido = dto.toPedido();
+		Pedido pedido = dto.toPedido(produtoRepository, itemPedidoRepository, pedidoRepository);
 		
 		try {
 			for(ItemPedido item : pedido.getItens()) {

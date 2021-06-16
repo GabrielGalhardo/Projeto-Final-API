@@ -1,6 +1,7 @@
 package org.serratec.models;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -25,9 +26,8 @@ public class Pedido {
 	private String numeroPedido;
 		
 	@NotNull
-	@NotBlank
 	@OneToMany
-	private List<ItemPedido> itens;
+	private List<ItemPedido> itens = new ArrayList<>();
 	private Double valorTotal;
 	private LocalDateTime dataDoPedido;
 	private boolean status;

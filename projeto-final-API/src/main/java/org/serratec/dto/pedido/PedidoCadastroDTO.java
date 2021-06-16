@@ -1,5 +1,6 @@
 package org.serratec.dto.pedido;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,8 @@ import org.serratec.models.Client;
 import org.serratec.models.ItemPedido;
 import org.serratec.models.Pedido;
 import org.serratec.models.Produto;
+import org.serratec.repository.ItemPedidoRepository;
+import org.serratec.repository.PedidoRepository;
 import org.serratec.repository.ProdutoRepository;
 
 public class PedidoCadastroDTO {
@@ -20,31 +23,45 @@ public class PedidoCadastroDTO {
     private Client clientes;
     
 
-    public Pedido toPedido(ProdutoRepository produtoRepository) {
+    public Pedido toPedido(ProdutoRepository produtoRepository, ItemPedidoRepository itemPedidoRepository, PedidoRepository pedidoRepository) {
         Pedido pedido = new Pedido();
         
 
         double valor = 0;
         
+        List<ItemPedido> listItemPedido = new ArrayList<>();
+        
         for(ItemPedido item : itens) {        	
 
-        	valor +=  item.getProduto().getPreco() * item.getQuantidade();
-        }
+        	Optional<Produto> optional = produtoRepository.findByCodigo(item.getProduto().getCodigo());
+        	
+        	
+        	if(optional.isEmpty())
+        		throw new ClientException("Produto \"" + item.getProduto()+ "\"não encontrado");
+        	
+        	Produto produto = optional.get();
+        	
+        	if(produto.getAtivado()  == false)
+        		throw new ClientException("Produto \"" + item.getProduto() + "\"não está disponivel");
+        	
+        	ItemPedido itemPedido = new ItemPedido();
+        	
+        	itemPedido.setProduto(item.getProduto());
+        	itemPedido.setQuantidade(item.getQuantidade());
+        	        	
+        	itemPedidoRepository.save(itemPedido);
+        	
+        	listItemPedido.add(itemPedido);
+        	
+        	valor +=  produto.getPreco() * item.getQuantidade();
+        	
+       }
         
-        Optional<Produto> produto = produtoRepository.findByCodigo(item.getProduto().getCodigo());
-        
-        if(produto.isEmpty())
-        	throw new ClientException("Produto \"" + item.getProduto()+ "\"não encontrado");
-        
-        if(produto.get().getAtivado()  == false)
-        	throw new ClientException("Produto \"" + item.getProduto() + "\"não está ativado");
-        
-        pedido.getItens().get (item);
         
         
         pedido.setValorTotal(valor);
         pedido.setNumeroPedido(pedido.gerarNumeroPedido());
-        pedido.setItens(this.itens);        	
+        pedido.setItens(listItemPedido);        	
         pedido.setStatus(false);
         pedido.setCliente(this.clientes);
 

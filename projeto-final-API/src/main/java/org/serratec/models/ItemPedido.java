@@ -17,7 +17,6 @@ public class ItemPedido {
 	
 	@ManyToOne
 	private Produto produto;
-	
 	private Integer quantidade;
 	
 	public Long getId() {
