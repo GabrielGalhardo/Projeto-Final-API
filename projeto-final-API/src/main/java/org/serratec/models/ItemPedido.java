@@ -18,6 +18,8 @@ public class ItemPedido {
 	@ManyToOne
 	private Produto produto;
 	private Integer quantidade;
+	@ManyToOne
+	private Pedido pedido;
 	
 	public Long getId() {
 		return id;

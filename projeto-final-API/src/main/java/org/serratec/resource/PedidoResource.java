@@ -39,7 +39,7 @@ public class PedidoResource {
 	
 	@Autowired
 	ItemPedidoRepository itemPedidoRepository;
-	
+		
 	@Autowired
     EmailService emailService;
 	
@@ -73,6 +73,10 @@ public class PedidoResource {
 					throw new PedidoException("Ops, o item \"" + item.getProduto().getNome() + "\" está com uma quantidade inválida ou menor que 1");
 				}
 			pedidoRepository.save(pedido);
+			
+			emailService.enviar("Bem vindo", "Seu pedido foi armazenado", "Serratec@gmail.com", pedido.getCliente().getEmail());
+
+
 			return new ResponseEntity<>("Pedido criado com sucesso", HttpStatus.OK);
 		} catch (PedidoException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

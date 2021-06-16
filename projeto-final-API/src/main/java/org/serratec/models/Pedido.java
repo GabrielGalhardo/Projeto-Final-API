@@ -26,7 +26,7 @@ public class Pedido {
 	private String numeroPedido;
 		
 	@NotNull
-	@OneToMany
+	@OneToMany(mappedBy = "pedido")
 	private List<ItemPedido> itens = new ArrayList<>();
 	private Double valorTotal;
 	private LocalDateTime dataDoPedido;
