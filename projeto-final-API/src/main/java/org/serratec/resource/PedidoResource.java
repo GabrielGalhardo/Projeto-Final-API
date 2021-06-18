@@ -139,7 +139,7 @@ public class PedidoResource {
 	}
 	
 	 @ApiOperation(value = "Deletando pedido ")
-	    @DeleteMapping("pessoa/delete/{numeroPedido}")
+	    @DeleteMapping("pedido/delete/{numeroPedido}")
 	    public void deletePedido(@PathVariable String numero) {
 	    	pedidoRepository.deleteByNumeroPedido(numero);
 	    }

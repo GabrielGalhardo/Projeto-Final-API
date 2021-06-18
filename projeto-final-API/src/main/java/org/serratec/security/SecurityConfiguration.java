@@ -49,11 +49,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
         	.antMatchers(HttpMethod.POST, "/auth").permitAll()
         	.antMatchers(HttpMethod.POST, "/categoria").permitAll()
-        	.antMatchers(HttpMethod.POST, "/categoria/todos").permitAll()
-        	.antMatchers(HttpMethod.POST, "/categoria/{nome}").permitAll()
-        	.antMatchers(HttpMethod.POST, "//produtos/categoria/{categoria}").permitAll()
-        	.antMatchers(HttpMethod.POST, "/categoria/especifico/{nome}").permitAll()
-        	.antMatchers(HttpMethod.POST, "/pedidos/todos").permitAll()
+        	.antMatchers(HttpMethod.GET, "/categoria/todos").permitAll()
+        	.antMatchers(HttpMethod.GET, "/categoria/especifico/{nome}").permitAll()
+        	.antMatchers(HttpMethod.PUT, "/categoria/desabilitar/{nome}").permitAll()
+        	.antMatchers(HttpMethod.PUT, "/categoria/habilitar/{nome}").permitAll()
+        	.antMatchers(HttpMethod.GET, "/produto/categoria/{categoria}").permitAll()
+        	.antMatchers(HttpMethod.GET, "/pedido/todos").permitAll()
+        	.antMatchers(HttpMethod.GET, "/pedido/{numeroPedido}").permitAll()
+        	.antMatchers(HttpMethod.POST, "/produto").permitAll()
+        	.antMatchers(HttpMethod.POST, "/produto/todos").permitAll()
+        	.antMatchers(HttpMethod.PUT, "/produto/categoria-edit/{codigo}").permitAll()
+        	.antMatchers(HttpMethod.PUT, "/produto/nome-edit/{codigo}").permitAll()
+        	.antMatchers(HttpMethod.PUT, "/produto/descricao-edit/{codigo}").permitAll()
+        	.antMatchers(HttpMethod.PUT, "/produto/preco-edit/{codigo}").permitAll()
+        	.antMatchers(HttpMethod.PUT, "/produto/quantidade-edit/{codigo}").permitAll()
+        	.antMatchers(HttpMethod.PUT, "/produto/imagem-edit/{codigo}").permitAll()
+        	.antMatchers(HttpMethod.PUT, "/produto/desabilitar/{codigo}").permitAll()
+        	.antMatchers(HttpMethod.PUT, "/produto/habilitar/{codigo}").permitAll()
+        	.antMatchers(HttpMethod.DELETE, "pedido/delete/{numeroPedido}").permitAll()        	       	
         	
         	.anyRequest().authenticated()
         	.and().csrf().disable()
@@ -64,11 +77,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     //Configuration for static resources
     @Override
     public void configure(WebSecurity web) throws Exception {
-    	web.ignoring().antMatchers("/v2/api-docs",
+      	web.ignoring().antMatchers("/v2/api-docs",
                 "/configuration/ui",
                 "/swagger-resources/",
                 "/configuration/security",
                 "/swagger-ui.html",
                 "/webjars/");
     }
+    
+    
 }

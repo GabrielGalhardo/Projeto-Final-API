@@ -10,7 +10,6 @@ import org.serratec.dto.client.ClientSimplificadoDTO;
 import org.serratec.exception.ClientException;
 import org.serratec.models.Client;
 import org.serratec.repository.ClientRepository;
-import org.serratec.services.CpfValidService;
 import org.serratec.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
