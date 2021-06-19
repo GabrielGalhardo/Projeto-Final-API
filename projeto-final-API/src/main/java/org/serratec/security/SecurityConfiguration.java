@@ -49,6 +49,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
         	.antMatchers(HttpMethod.POST, "/auth").permitAll()
         	.antMatchers(HttpMethod.POST, "/categoria").permitAll()
+        	.antMatchers(HttpMethod.POST, "/client").permitAll()
+        	.antMatchers(HttpMethod.GET, "/client/todos").permitAll()
         	.antMatchers(HttpMethod.GET, "/categoria/todos").permitAll()
         	.antMatchers(HttpMethod.GET, "/categoria/especifico/{nome}").permitAll()
         	.antMatchers(HttpMethod.PUT, "/categoria/desabilitar/{nome}").permitAll()
@@ -57,7 +59,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         	.antMatchers(HttpMethod.GET, "/pedido/todos").permitAll()
         	.antMatchers(HttpMethod.GET, "/pedido/{numeroPedido}").permitAll()
         	.antMatchers(HttpMethod.POST, "/produto").permitAll()
-        	.antMatchers(HttpMethod.POST, "/produto/todos").permitAll()
+        	.antMatchers(HttpMethod.GET, "/produto/{nome}").permitAll()
+        	.antMatchers(HttpMethod.GET, "/produto/todos").permitAll()
         	.antMatchers(HttpMethod.PUT, "/produto/categoria-edit/{codigo}").permitAll()
         	.antMatchers(HttpMethod.PUT, "/produto/nome-edit/{codigo}").permitAll()
         	.antMatchers(HttpMethod.PUT, "/produto/descricao-edit/{codigo}").permitAll()
@@ -67,11 +70,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         	.antMatchers(HttpMethod.PUT, "/produto/desabilitar/{codigo}").permitAll()
         	.antMatchers(HttpMethod.PUT, "/produto/habilitar/{codigo}").permitAll()
         	.antMatchers(HttpMethod.DELETE, "pedido/delete/{numeroPedido}").permitAll()        	       	
-        	
+        	.antMatchers("/v2/api-docs", "/swagger-resources/configuration/ui", "/swagger-resources", "/swagger-resources/configuration/security", "/swagger-ui.html", "/webjars/**").permitAll()
+            
         	.anyRequest().authenticated()
         	.and().csrf().disable()
         	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         	.and().addFilterBefore(new TokenAuthenticationFilter(tokenService, repository), UsernamePasswordAuthenticationFilter.class);
+        
+       
     }
 
     //Configuration for static resources

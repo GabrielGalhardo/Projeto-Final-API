@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.serratec.dto.produto.ProdutoCadastroDTO;
+import org.serratec.dto.produto.ProdutoPorCategoriaDTO;
 import org.serratec.dto.produto.ProdutoSimplificadoDTO;
 import org.serratec.exception.ClientException;
 import org.serratec.exception.ProdutoException;
@@ -72,7 +73,26 @@ public class ProdutoResource {
 		return new ResponseEntity<>(dtos, HttpStatus.OK);
 	}
 	
-
+	@GetMapping("/produtos/categoria/{categoria}")
+	public ResponseEntity<?> getProdutoPorCategoria(@PathVariable String categoria){
+		
+		Optional<Categoria> optional = categoriaRepository.findByNome(categoria);
+		
+		if(optional.isEmpty())
+			return new ResponseEntity<>("Categoria vazia", HttpStatus.BAD_REQUEST); 
+		
+		List<Produto> produtos = produtoRepository.findAllByCategoria(optional.get());
+		
+		List<ProdutoPorCategoriaDTO> dtos = new ArrayList<>();
+		
+		for(Produto produto : produtos) {
+			
+			dtos.add(new ProdutoPorCategoriaDTO(produto));
+		}
+		
+		return new ResponseEntity<>(dtos, HttpStatus.OK);	
+	}
+	
 	@ApiOperation(value = "pesquisando produto por nome")
 	@GetMapping("/produto/{nome}")
 	public ResponseEntity<?> getProduto(@PathVariable String nome){

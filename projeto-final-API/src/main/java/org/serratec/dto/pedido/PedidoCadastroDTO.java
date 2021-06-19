@@ -20,7 +20,7 @@ public class PedidoCadastroDTO {
     private Double valorTotal;
     private LocalDateTime dataDoPedido;
     private boolean Status;
-    private Client clientes;
+    private Client cliente;
     
 
     public Pedido toPedido(ProdutoRepository produtoRepository, ItemPedidoRepository itemPedidoRepository, PedidoRepository pedidoRepository) {
@@ -63,7 +63,7 @@ public class PedidoCadastroDTO {
         pedido.setNumeroPedido(pedido.gerarNumeroPedido());
         pedido.setItens(listItemPedido);        	
         pedido.setStatus(false);
-        pedido.setCliente(this.clientes);
+        pedido.setCliente(this.cliente);
 
         return pedido;
     }
@@ -100,11 +100,11 @@ public class PedidoCadastroDTO {
 	public void setStatus(boolean status) {
 		Status = status;
 	}
-	public Client getClientes() {
-        return clientes;
+	public Client getCliente() {
+        return cliente;
     }
-    public void setClientes(Client clientes) {
-        this.clientes = clientes;
+    public void setCliente(Client clientes) {
+        this.cliente = clientes;
     }
 
 

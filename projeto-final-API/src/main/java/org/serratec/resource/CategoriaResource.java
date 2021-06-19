@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.serratec.dto.categoria.CategoriaCompletaDTO;
-import org.serratec.dto.produto.ProdutoPorCategoriaDTO;
 import org.serratec.models.Categoria;
-import org.serratec.models.Produto;
 import org.serratec.repository.CategoriaRepository;
 import org.serratec.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,25 +63,7 @@ public class CategoriaResource {
 		return new ResponseEntity<>(optional, HttpStatus.OK);
 	}
 	
-	@GetMapping("/produtos/categoria/{categoria}")
-	public ResponseEntity<?> getProdutoPorCategoria(@PathVariable String categoria){
-		
-		Optional<Categoria> optional = categoriaRepository.findByNome(categoria);
-		
-		if(optional.isEmpty())
-			return new ResponseEntity<>("Categoria vazia", HttpStatus.BAD_REQUEST); 
-		
-		List<Produto> produtos = produtoRepository.findAllByCategoria(optional.get());
-		
-		List<ProdutoPorCategoriaDTO> dtos = new ArrayList<>();
-		
-		for(Produto produto : produtos) {
-			
-			dtos.add(new ProdutoPorCategoriaDTO(produto));
-		}
-		
-		return new ResponseEntity<>(dtos, HttpStatus.OK);	
-	}
+
 	
 	@PutMapping("/categoria/desabilitar/{nome}")
     public void putCategoriaDesabilitar(@PathVariable String nome) {
